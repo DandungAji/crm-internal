@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns";
-import { CalendarIcon, Plus, Search, Filter, Users, Clock, MoreHorizontal } from "lucide-react";
+import { CalendarIcon, Plus, Search, Filter, Users, Clock, MoreHorizontal, CheckSquare, FolderKanban } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const Projects = () => {

@@ -39,7 +39,8 @@ const bottomItems = [
 ];
 
 export function AppSidebar() {
-  const { collapsed } = useSidebar();
+  const { open } = useSidebar();
+  const collapsed = !open;
   const location = useLocation();
 
   const isActive = (path: string) => {
