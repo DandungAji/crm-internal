@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -24,7 +23,7 @@ import {
   FileText,
   FileImage,
   FileSpreadsheet,
-  FilePresentation,
+  Presentation,
   MoreHorizontal,
   FolderOpen,
   ChevronRight
@@ -220,7 +219,7 @@ const Files = () => {
       case "spreadsheet":
         return <FileSpreadsheet className="h-6 w-6 text-green-500" />;
       case "presentation":
-        return <FilePresentation className="h-6 w-6 text-orange-500" />;
+        return <Presentation className="h-6 w-6 text-orange-500" />;
       case "image":
         return <FileImage className="h-6 w-6 text-purple-500" />;
       default:
