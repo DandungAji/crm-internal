@@ -10,6 +10,11 @@ import Projects from "./pages/Projects";
 import ProjectDetail from "./pages/ProjectDetail";
 import Kanban from "./pages/Kanban";
 import Calendar from "./pages/Calendar";
+import Tasks from "./pages/Tasks";
+import Team from "./pages/Team";
+import Messages from "./pages/Messages";
+import Files from "./pages/Files";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,12 +32,11 @@ const App = () => (
             <Route path="projects/:projectId" element={<ProjectDetail />} />
             <Route path="kanban" element={<Kanban />} />
             <Route path="calendar" element={<Calendar />} />
-            {/* Placeholder routes for future implementation */}
-            <Route path="tasks" element={<div className="p-6"><h1 className="text-2xl font-bold">Tasks - Coming Soon</h1></div>} />
-            <Route path="team" element={<div className="p-6"><h1 className="text-2xl font-bold">Team - Coming Soon</h1></div>} />
-            <Route path="messages" element={<div className="p-6"><h1 className="text-2xl font-bold">Messages - Coming Soon</h1></div>} />
-            <Route path="files" element={<div className="p-6"><h1 className="text-2xl font-bold">Files - Coming Soon</h1></div>} />
-            <Route path="settings" element={<div className="p-6"><h1 className="text-2xl font-bold">Settings - Coming Soon</h1></div>} />
+            <Route path="tasks" element={<Tasks />} />
+            <Route path="team" element={<Team />} />
+            <Route path="messages" element={<Messages />} />
+            <Route path="files" element={<Files />} />
+            <Route path="settings" element={<Settings />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
