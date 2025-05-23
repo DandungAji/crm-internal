@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -14,15 +15,52 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { format } from "date-fns";
 import { CalendarIcon, Plus, Search, Filter, Users, Clock, MoreHorizontal, CheckSquare, FolderKanban } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { toast } from "@/hooks/use-toast";
+
+// Define the project type
+type Project = {
+  id: number;
+  name: string;
+  description: string;
+  status: string;
+  priority: string;
+  progress: number;
+  dueDate: string;
+  teamMembers: string[];
+  tasksTotal: number;
+  tasksCompleted: number;
+  budget: string;
+  client: string;
+};
+
+// Project form type
+type ProjectFormData = {
+  name: string;
+  description: string;
+  priority: string;
+  dueDate: Date | undefined;
+  budget: string;
+  client: string;
+};
 
 const Projects = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [isNewProjectOpen, setIsNewProjectOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Date>();
+  
+  // Form state
+  const [formData, setFormData] = useState<ProjectFormData>({
+    name: "",
+    description: "",
+    priority: "",
+    dueDate: undefined,
+    budget: "",
+    client: "Internal"
+  });
 
   // Mock project data
-  const projects = [
+  const [projects, setProjects] = useState<Project[]>([
     {
       id: 1,
       name: "Website Redesign",
@@ -93,7 +131,68 @@ const Projects = () => {
       budget: "$20,000",
       client: "HR Department"
     }
-  ];
+  ]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({ ...prev, [id.replace('project-', '')]: value }));
+  };
+
+  const handleSelectChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleCreateProject = () => {
+    // Validate form
+    if (!formData.name) {
+      toast({
+        title: "Error",
+        description: "Project name is required",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Create new project
+    const newProject: Project = {
+      id: projects.length + 1,
+      name: formData.name,
+      description: formData.description || "No description provided",
+      status: "Planning",
+      priority: formData.priority || "Medium",
+      progress: 0,
+      dueDate: formData.dueDate ? format(formData.dueDate, "yyyy-MM-dd") : "Not set",
+      teamMembers: [],
+      tasksTotal: 0,
+      tasksCompleted: 0,
+      budget: formData.budget || "$0",
+      client: formData.client || "Internal"
+    };
+
+    // Add to projects array
+    setProjects(prev => [newProject, ...prev]);
+    
+    // Reset form and close dialog
+    setFormData({
+      name: "",
+      description: "",
+      priority: "",
+      dueDate: undefined,
+      budget: "",
+      client: "Internal"
+    });
+    
+    setIsNewProjectOpen(false);
+    
+    toast({
+      title: "Success",
+      description: `Project "${newProject.name}" has been created`,
+    });
+  };
+
+  const handleViewProject = (projectId: number) => {
+    navigate(`/projects/${projectId}`);
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -149,16 +248,38 @@ const Projects = () => {
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
                 <Label htmlFor="project-name">Project Name</Label>
-                <Input id="project-name" placeholder="Enter project name" />
+                <Input 
+                  id="project-name" 
+                  placeholder="Enter project name" 
+                  value={formData.name}
+                  onChange={handleInputChange}
+                />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="project-description">Description</Label>
-                <Textarea id="project-description" placeholder="Project description" />
+                <Textarea 
+                  id="project-description" 
+                  placeholder="Project description"
+                  value={formData.description}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="project-client">Client</Label>
+                <Input 
+                  id="project-client" 
+                  placeholder="Client name" 
+                  value={formData.client}
+                  onChange={handleInputChange}
+                />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="grid gap-2">
                   <Label>Priority</Label>
-                  <Select>
+                  <Select 
+                    onValueChange={(value) => handleSelectChange('priority', value)}
+                    value={formData.priority}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select priority" />
                     </SelectTrigger>
@@ -174,25 +295,36 @@ const Projects = () => {
                   <Label>Due Date</Label>
                   <Popover>
                     <PopoverTrigger asChild>
-                      <Button variant="outline" className={cn("justify-start text-left font-normal", !selectedDate && "text-muted-foreground")}>
+                      <Button variant="outline" className={cn("justify-start text-left font-normal", !formData.dueDate && "text-muted-foreground")}>
                         <CalendarIcon className="mr-2 h-4 w-4" />
-                        {selectedDate ? format(selectedDate, "PPP") : "Pick a date"}
+                        {formData.dueDate ? format(formData.dueDate, "PPP") : <span>Pick a date</span>}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar mode="single" selected={selectedDate} onSelect={setSelectedDate} initialFocus />
+                      <Calendar 
+                        mode="single" 
+                        selected={formData.dueDate} 
+                        onSelect={(date) => setFormData(prev => ({ ...prev, dueDate: date }))}
+                        initialFocus 
+                        className={cn("p-3 pointer-events-auto")}
+                      />
                     </PopoverContent>
                   </Popover>
                 </div>
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="budget">Budget</Label>
-                <Input id="budget" placeholder="$0.00" />
+                <Label htmlFor="project-budget">Budget</Label>
+                <Input 
+                  id="project-budget" 
+                  placeholder="$0.00" 
+                  value={formData.budget}
+                  onChange={handleInputChange}
+                />
               </div>
             </div>
             <div className="flex justify-end space-x-2">
               <Button variant="outline" onClick={() => setIsNewProjectOpen(false)}>Cancel</Button>
-              <Button onClick={() => setIsNewProjectOpen(false)}>Create Project</Button>
+              <Button onClick={handleCreateProject}>Create Project</Button>
             </div>
           </DialogContent>
         </Dialog>
@@ -229,14 +361,28 @@ const Projects = () => {
       {/* Projects Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {filteredProjects.map((project) => (
-          <Card key={project.id} className="bg-white shadow-sm hover:shadow-md transition-shadow duration-200 border-slate-200">
+          <Card 
+            key={project.id} 
+            className="bg-white shadow-sm hover:shadow-md transition-shadow duration-200 border-slate-200 cursor-pointer"
+            onClick={() => handleViewProject(project.id)}
+          >
             <CardHeader className="pb-3">
               <div className="flex justify-between items-start">
                 <div className="space-y-1">
                   <CardTitle className="text-lg font-semibold text-slate-900">{project.name}</CardTitle>
                   <CardDescription className="text-sm">{project.description}</CardDescription>
                 </div>
-                <Button variant="ghost" size="sm">
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent card click
+                    toast({
+                      title: "Project Options",
+                      description: "Options menu will be implemented soon",
+                    });
+                  }}
+                >
                   <MoreHorizontal className="h-4 w-4" />
                 </Button>
               </div>

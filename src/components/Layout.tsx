@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { Outlet } from "react-router-dom";
@@ -7,9 +8,35 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Search, Plus, Bell } from "lucide-react";
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuLabel, 
+  DropdownMenuSeparator, 
+  DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu";
+import { toast } from "@/hooks/use-toast";
 
 export function Layout() {
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
+  
+  // Mock notifications
+  const notifications = [
+    { id: 1, text: "Project 'Website Redesign' is due tomorrow", time: "30m ago" },
+    { id: 2, text: "Bob assigned you a new task", time: "1h ago" },
+    { id: 3, text: "Team meeting starts in 15 minutes", time: "2h ago" },
+    { id: 4, text: "Emma commented on Marketing Campaign", time: "1d ago" },
+  ];
+
+  const handleNewProject = () => {
+    navigate("/projects");
+    toast({
+      title: "New Project",
+      description: "Opening project creation form",
+    });
+  };
 
   return (
     <SidebarProvider>
@@ -40,10 +67,32 @@ export function Layout() {
             </div>
 
             <div className="flex items-center space-x-3 ml-auto">
-              <Button variant="ghost" size="sm">
-                <Bell className="h-4 w-4" />
-              </Button>
-              <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="relative">
+                    <Bell className="h-4 w-4" />
+                    <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-80">
+                  <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  {notifications.map(notification => (
+                    <DropdownMenuItem key={notification.id} className="py-2">
+                      <div className="flex flex-col">
+                        <span>{notification.text}</span>
+                        <span className="text-xs text-slate-500">{notification.time}</span>
+                      </div>
+                    </DropdownMenuItem>
+                  ))}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="justify-center text-blue-600">
+                    View all notifications
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              
+              <Button size="sm" className="bg-blue-600 hover:bg-blue-700" onClick={handleNewProject}>
                 <Plus className="h-4 w-4 mr-2" />
                 New Project
               </Button>

@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -9,6 +10,7 @@ import { Input } from "@/components/ui/input";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
   // Mock data for dashboard
   const stats = [
@@ -33,6 +35,10 @@ const Index = () => {
       case "Completed": return "bg-green-100 text-green-800 border-green-200";
       default: return "bg-gray-100 text-gray-800 border-gray-200";
     }
+  };
+
+  const handleNewProject = () => {
+    navigate("/projects");
   };
 
   return (
@@ -60,7 +66,7 @@ const Index = () => {
             </div>
 
             <div className="flex items-center space-x-3">
-              <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+              <Button size="sm" className="bg-blue-600 hover:bg-blue-700" onClick={handleNewProject}>
                 <Plus className="h-4 w-4 mr-2" />
                 New Project
               </Button>
@@ -110,7 +116,11 @@ const Index = () => {
               <CardContent>
                 <div className="space-y-4">
                   {recentProjects.map((project) => (
-                    <div key={project.id} className="flex items-center justify-between p-4 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer">
+                    <div 
+                      key={project.id} 
+                      className="flex items-center justify-between p-4 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
+                      onClick={() => navigate(`/projects/${project.id}`)}
+                    >
                       <div className="flex-1">
                         <div className="flex items-center justify-between mb-2">
                           <h3 className="font-medium text-slate-900">{project.name}</h3>
@@ -144,15 +154,30 @@ const Index = () => {
                 <CardTitle className="text-lg font-semibold text-slate-900">Quick Actions</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <Button variant="outline" className="w-full justify-start text-left" size="sm">
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start text-left" 
+                  size="sm"
+                  onClick={() => navigate("/tasks")}
+                >
                   <Plus className="h-4 w-4 mr-2" />
                   Create New Task
                 </Button>
-                <Button variant="outline" className="w-full justify-start text-left" size="sm">
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start text-left" 
+                  size="sm"
+                  onClick={() => navigate("/calendar")}
+                >
                   <CalendarDays className="h-4 w-4 mr-2" />
                   View Calendar
                 </Button>
-                <Button variant="outline" className="w-full justify-start text-left" size="sm">
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start text-left" 
+                  size="sm"
+                  onClick={() => navigate("/team")}
+                >
                   <Users className="h-4 w-4 mr-2" />
                   Manage Team
                 </Button>
