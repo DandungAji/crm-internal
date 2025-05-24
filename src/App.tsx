@@ -14,6 +14,7 @@ import Calendar from "./pages/Calendar";
 import Tasks from "./pages/Tasks";
 import Team from "./pages/Team";
 import Files from "./pages/Files";
+import Invoice from "./pages/Invoice";
 import Settings from "./pages/Settings";
 import Masterdata from "./pages/Masterdata";
 import UserGuide from "./pages/UserGuide";
@@ -49,6 +50,7 @@ const ProtectedApp = () => {
         <Route path="tasks" element={<Tasks />} />
         <Route path="team" element={<Team />} />
         <Route path="files" element={<Files />} />
+        <Route path="invoice" element={<Invoice />} />
         <Route path="settings" element={<Settings />} />
         <Route path="masterdata" element={<Masterdata />} />
         <Route path="guide" element={<UserGuide />} />

@@ -25,6 +25,7 @@ type Event = {
 const CalendarPage = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [isEventDialogOpen, setIsEventDialogOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [newEvent, setNewEvent] = useState({
     title: "",
     description: "",
@@ -102,22 +103,22 @@ const CalendarPage = () => {
     setSelectedDate(new Date());
   };
 
-  const getEventsForDate = (date: Date) => {
-    return events.filter(event => isSameDay(event.date, date));
-  };
-
   const getTodaysEvents = () => {
     return events.filter(event => isToday(event.date));
   };
 
   const getEventTypeColor = (type: string) => {
     switch (type) {
-      case "meeting": return "bg-blue-100 text-blue-800";
-      case "review": return "bg-purple-100 text-purple-800";
-      case "presentation": return "bg-green-100 text-green-800";
-      case "deadline": return "bg-red-100 text-red-800";
-      default: return "bg-gray-100 text-gray-800";
+      case "meeting": return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
+      case "review": return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300";
+      case "presentation": return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
+      case "deadline": return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
+      default: return "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300";
     }
+  };
+
+  const handleEventClick = (event: Event) => {
+    setSelectedEvent(event);
   };
 
   return (
@@ -195,64 +196,13 @@ const CalendarPage = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Mini Calendar */}
-        <div className="lg:col-span-1">
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-lg">Calendar</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Calendar
-                mode="single"
-                selected={selectedDate}
-                onSelect={(date) => date && setSelectedDate(date)}
-                className="rounded-md border w-full"
-              />
-            </CardContent>
-          </Card>
-
-          {/* Today's Events */}
-          <Card className="mt-4">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-lg flex items-center">
-                <Clock className="h-5 w-5 mr-2" />
-                Today's Events
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                {getTodaysEvents().map((event) => (
-                  <div
-                    key={event.id}
-                    className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700"
-                    onClick={() => toast({
-                      title: event.title,
-                      description: `${event.time} - ${event.description}`,
-                      duration: 5000
-                    })}
-                  >
-                    <div className="font-medium text-sm">{event.title}</div>
-                    <div className="text-xs text-slate-600 dark:text-slate-400">{event.time}</div>
-                    <Badge className={`${getEventTypeColor(event.type)} text-xs mt-1`}>
-                      {event.type}
-                    </Badge>
-                  </div>
-                ))}
-                {getTodaysEvents().length === 0 && (
-                  <p className="text-sm text-slate-500 dark:text-slate-400">No events today</p>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Calendar */}
-        <div className="lg:col-span-3">
-          <Card>
+        <div className="lg:col-span-2">
+          <Card className="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
             <CardHeader className="pb-4">
               <div className="flex justify-between items-center">
-                <h2 className="text-xl font-semibold">
+                <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
                   {format(selectedDate, "MMMM yyyy")}
                 </h2>
               </div>
@@ -266,6 +216,67 @@ const CalendarPage = () => {
               />
             </CardContent>
           </Card>
+        </div>
+
+        {/* Today's Events */}
+        <div className="lg:col-span-1">
+          <Card className="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg flex items-center text-slate-900 dark:text-slate-100">
+                <Clock className="h-5 w-5 mr-2" />
+                Today's Events
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {getTodaysEvents().map((event) => (
+                  <div
+                    key={event.id}
+                    className="p-3 rounded-lg bg-slate-50 dark:bg-slate-700 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors"
+                    onClick={() => handleEventClick(event)}
+                  >
+                    <div className="font-medium text-sm text-slate-900 dark:text-slate-100">{event.title}</div>
+                    <div className="text-xs text-slate-600 dark:text-slate-400 mt-1">{event.time}</div>
+                    <Badge className={`${getEventTypeColor(event.type)} text-xs mt-2`}>
+                      {event.type}
+                    </Badge>
+                  </div>
+                ))}
+                {getTodaysEvents().length === 0 && (
+                  <p className="text-sm text-slate-500 dark:text-slate-400">No events today</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Event Details */}
+          {selectedEvent && (
+            <Card className="mt-4 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg text-slate-900 dark:text-slate-100">Event Details</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div>
+                  <h3 className="font-semibold text-slate-900 dark:text-slate-100">{selectedEvent.title}</h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{selectedEvent.description}</p>
+                </div>
+                <div className="text-sm">
+                  <p className="text-slate-600 dark:text-slate-400">
+                    <strong>Date:</strong> {format(selectedEvent.date, "PPP")}
+                  </p>
+                  <p className="text-slate-600 dark:text-slate-400">
+                    <strong>Time:</strong> {selectedEvent.time}
+                  </p>
+                  <p className="text-slate-600 dark:text-slate-400">
+                    <strong>Attendees:</strong> {selectedEvent.attendees.join(", ") || "None"}
+                  </p>
+                </div>
+                <Badge className={`${getEventTypeColor(selectedEvent.type)} text-xs`}>
+                  {selectedEvent.type}
+                </Badge>
+              </CardContent>
+            </Card>
+          )}
         </div>
       </div>
     </div>

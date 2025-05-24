@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -10,9 +10,11 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { Camera } from "lucide-react";
 
 const Settings = () => {
   const { user } = useAuth();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     // Check localStorage for saved preference
@@ -35,6 +37,35 @@ const Settings = () => {
       title: "Profile Updated",
       description: "Your profile has been updated successfully.",
     });
+  };
+
+  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      if (file.size > 1024 * 1024) { // 1MB limit
+        toast({
+          title: "File too large",
+          description: "Please select an image smaller than 1MB.",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        setProfile(prev => ({ ...prev, avatarUrl: result }));
+        toast({
+          title: "Avatar Updated",
+          description: "Your profile picture has been updated successfully.",
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleAvatarClick = () => {
+    fileInputRef.current?.click();
   };
 
   const handleDarkModeToggle = (checked: boolean) => {
@@ -83,12 +114,31 @@ const Settings = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center space-x-4">
-                <Avatar className="h-20 w-20">
-                  <AvatarImage src={profile.avatarUrl} alt={profile.name} />
-                  <AvatarFallback className="text-lg bg-slate-100 dark:bg-slate-700">{profile.name.charAt(0)}</AvatarFallback>
-                </Avatar>
+                <div className="relative">
+                  <Avatar className="h-20 w-20">
+                    <AvatarImage src={profile.avatarUrl} alt={profile.name} />
+                    <AvatarFallback className="text-lg bg-slate-100 dark:bg-slate-700">{profile.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    className="absolute -bottom-2 -right-2 h-8 w-8 rounded-full p-0"
+                    onClick={handleAvatarClick}
+                  >
+                    <Camera className="h-4 w-4" />
+                  </Button>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleAvatarChange}
+                    className="hidden"
+                  />
+                </div>
                 <div>
-                  <Button size="sm" variant="outline" className="border-slate-300 dark:border-slate-600">Change Avatar</Button>
+                  <Button size="sm" variant="outline" onClick={handleAvatarClick} className="border-slate-300 dark:border-slate-600">
+                    Change Avatar
+                  </Button>
                   <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">JPG, GIF or PNG. 1MB max.</p>
                 </div>
               </div>

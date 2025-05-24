@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,9 +18,10 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus, Search, MoreHorizontal, Settings, FileText, Trash2, Users, Calendar } from "lucide-react";
+import { Plus, Search, MoreHorizontal, Settings, Trash2, Users, Calendar } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import InvoiceGenerator from "@/components/InvoiceGenerator";
+import ProjectTeamManager from "@/components/ProjectTeamManager";
+import ProjectTimeline from "@/components/ProjectTimeline";
 
 type Project = {
   id: number;
@@ -42,7 +42,8 @@ const Projects = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [isInvoiceDialogOpen, setIsInvoiceDialogOpen] = useState(false);
+  const [isTeamDialogOpen, setIsTeamDialogOpen] = useState(false);
+  const [isTimelineDialogOpen, setIsTimelineDialogOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const [projects, setProjects] = useState<Project[]>([
@@ -162,9 +163,14 @@ const Projects = () => {
     });
   };
 
-  const handleGenerateInvoice = (project: Project) => {
+  const handleManageTeam = (project: Project) => {
     setSelectedProject(project);
-    setIsInvoiceDialogOpen(true);
+    setIsTeamDialogOpen(true);
+  };
+
+  const handleViewTimeline = (project: Project) => {
+    setSelectedProject(project);
+    setIsTimelineDialogOpen(true);
   };
 
   const getStatusColor = (status: string) => {
@@ -301,17 +307,17 @@ const Projects = () => {
       {/* Projects Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredProjects.map((project) => (
-          <Card key={project.id} className="bg-white shadow-sm hover:shadow-md transition-shadow duration-200 border-slate-200">
+          <Card key={project.id} className="bg-white dark:bg-slate-800 shadow-sm hover:shadow-md transition-shadow duration-200 border-slate-200 dark:border-slate-700">
             <CardHeader className="pb-3">
               <div className="flex justify-between items-start">
                 <div className="flex-1">
                   <CardTitle 
-                    className="text-lg font-semibold text-slate-900 cursor-pointer hover:text-blue-600"
+                    className="text-lg font-semibold text-slate-900 dark:text-slate-100 cursor-pointer hover:text-blue-600"
                     onClick={() => navigate(`/projects/${project.id}`)}
                   >
                     {project.name}
                   </CardTitle>
-                  <CardDescription className="mt-1">{project.description}</CardDescription>
+                  <CardDescription className="mt-1 text-slate-600 dark:text-slate-400">{project.description}</CardDescription>
                 </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -319,21 +325,17 @@ const Projects = () => {
                       <MoreHorizontal className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
+                  <DropdownMenuContent align="end" className="bg-white dark:bg-slate-800">
                     <DropdownMenuLabel>Project Options</DropdownMenuLabel>
                     <DropdownMenuItem onClick={() => navigate(`/projects/${project.id}`)}>
                       <Settings className="h-4 w-4 mr-2" />
                       Edit Details
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => handleGenerateInvoice(project)}>
-                      <FileText className="h-4 w-4 mr-2" />
-                      Generate Invoice
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleManageTeam(project)}>
                       <Users className="h-4 w-4 mr-2" />
                       Manage Team
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleViewTimeline(project)}>
                       <Calendar className="h-4 w-4 mr-2" />
                       View Timeline
                     </DropdownMenuItem>
@@ -345,7 +347,7 @@ const Projects = () => {
                           Delete Project
                         </DropdownMenuItem>
                       </AlertDialogTrigger>
-                      <AlertDialogContent>
+                      <AlertDialogContent className="bg-white dark:bg-slate-800">
                         <AlertDialogHeader>
                           <AlertDialogTitle>Delete Project</AlertDialogTitle>
                           <AlertDialogDescription>
@@ -410,10 +412,19 @@ const Projects = () => {
         </div>
       )}
 
-      <InvoiceGenerator
-        isOpen={isInvoiceDialogOpen}
-        onClose={() => setIsInvoiceDialogOpen(false)}
-        project={selectedProject}
+      {/* Team Management Dialog */}
+      <ProjectTeamManager
+        isOpen={isTeamDialogOpen}
+        onClose={() => setIsTeamDialogOpen(false)}
+        projectName={selectedProject?.name || ""}
+        initialTeamMembers={selectedProject?.teamMembers}
+      />
+
+      {/* Timeline Dialog */}
+      <ProjectTimeline
+        isOpen={isTimelineDialogOpen}
+        onClose={() => setIsTimelineDialogOpen(false)}
+        projectName={selectedProject?.name || ""}
       />
     </div>
   );
