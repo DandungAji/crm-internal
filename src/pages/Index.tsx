@@ -188,7 +188,12 @@ const Index = () => {
               <CardContent className="p-6">
                 <h3 className="font-semibold text-blue-900 mb-2">Need Help?</h3>
                 <p className="text-sm text-blue-700 mb-4">Explore our features and boost your productivity.</p>
-                <Button size="sm" variant="outline" className="border-blue-300 text-blue-700 hover:bg-blue-200">
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  className="border-blue-300 text-blue-700 hover:bg-blue-200"
+                  onClick={() => navigate("/guide")}
+                >
                   Learn More
                 </Button>
               </CardContent>
