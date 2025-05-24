@@ -35,6 +35,7 @@ type User = {
   role: string;
   department: string;
   status: string;
+  password?: string;
 };
 
 const Masterdata = () => {
@@ -55,9 +56,13 @@ const Masterdata = () => {
   ]);
 
   const [newDepartment, setNewDepartment] = useState({ name: "", description: "", manager: "" });
-  const [newUser, setNewUser] = useState({ name: "", email: "", role: "", department: "", status: "Active" });
+  const [newUser, setNewUser] = useState({ name: "", email: "", role: "", department: "", status: "Active", password: "" });
+  const [editingDepartment, setEditingDepartment] = useState<Department | null>(null);
+  const [editingUser, setEditingUser] = useState<User | null>(null);
   const [isDeptDialogOpen, setIsDeptDialogOpen] = useState(false);
   const [isUserDialogOpen, setIsUserDialogOpen] = useState(false);
+  const [isEditDeptDialogOpen, setIsEditDeptDialogOpen] = useState(false);
+  const [isEditUserDialogOpen, setIsEditUserDialogOpen] = useState(false);
 
   const handleAddDepartment = () => {
     if (!newDepartment.name || !newDepartment.description || !newDepartment.manager) {
@@ -86,8 +91,27 @@ const Masterdata = () => {
     });
   };
 
+  const handleEditDepartment = (department: Department) => {
+    setEditingDepartment(department);
+    setIsEditDeptDialogOpen(true);
+  };
+
+  const handleUpdateDepartment = () => {
+    if (!editingDepartment) return;
+
+    setDepartments(departments.map(dept => 
+      dept.id === editingDepartment.id ? editingDepartment : dept
+    ));
+    setEditingDepartment(null);
+    setIsEditDeptDialogOpen(false);
+    toast({
+      title: "Success",
+      description: "Department updated successfully"
+    });
+  };
+
   const handleAddUser = () => {
-    if (!newUser.name || !newUser.email || !newUser.role || !newUser.department) {
+    if (!newUser.name || !newUser.email || !newUser.role || !newUser.department || !newUser.password) {
       toast({
         title: "Error",
         description: "Please fill in all fields",
@@ -102,11 +126,30 @@ const Masterdata = () => {
     };
 
     setUsers([...users, user]);
-    setNewUser({ name: "", email: "", role: "", department: "", status: "Active" });
+    setNewUser({ name: "", email: "", role: "", department: "", status: "Active", password: "" });
     setIsUserDialogOpen(false);
     toast({
       title: "Success",
       description: "User added successfully"
+    });
+  };
+
+  const handleEditUser = (user: User) => {
+    setEditingUser(user);
+    setIsEditUserDialogOpen(true);
+  };
+
+  const handleUpdateUser = () => {
+    if (!editingUser) return;
+
+    setUsers(users.map(user => 
+      user.id === editingUser.id ? editingUser : user
+    ));
+    setEditingUser(null);
+    setIsEditUserDialogOpen(false);
+    toast({
+      title: "Success",
+      description: "User updated successfully"
     });
   };
 
@@ -127,14 +170,14 @@ const Masterdata = () => {
   };
 
   const getStatusColor = (status: string) => {
-    return status === "Active" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800";
+    return status === "Active" ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300" : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
   };
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-slate-900">Masterdata Management</h1>
-        <p className="text-slate-600 mt-1">Manage departments and users</p>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">Masterdata Management</h1>
+        <p className="text-slate-600 dark:text-slate-400 mt-1">Manage departments and users</p>
       </div>
 
       <Tabs defaultValue="departments" className="space-y-4">
@@ -215,7 +258,7 @@ const Masterdata = () => {
                       <TableCell>{dept.memberCount}</TableCell>
                       <TableCell>
                         <div className="flex space-x-2">
-                          <Button variant="outline" size="sm">
+                          <Button variant="outline" size="sm" onClick={() => handleEditDepartment(dept)}>
                             <Settings className="h-4 w-4" />
                           </Button>
                           <AlertDialog>
@@ -287,6 +330,16 @@ const Masterdata = () => {
                         />
                       </div>
                       <div>
+                        <Label htmlFor="userPassword">Password</Label>
+                        <Input
+                          id="userPassword"
+                          type="password"
+                          value={newUser.password}
+                          onChange={(e) => setNewUser({...newUser, password: e.target.value})}
+                          placeholder="Enter password"
+                        />
+                      </div>
+                      <div>
                         <Label htmlFor="userRole">Role</Label>
                         <Select value={newUser.role} onValueChange={(value) => setNewUser({...newUser, role: value})}>
                           <SelectTrigger>
@@ -347,7 +400,7 @@ const Masterdata = () => {
                       </TableCell>
                       <TableCell>
                         <div className="flex space-x-2">
-                          <Button variant="outline" size="sm">
+                          <Button variant="outline" size="sm" onClick={() => handleEditUser(user)}>
                             <Settings className="h-4 w-4" />
                           </Button>
                           <AlertDialog>
@@ -381,6 +434,126 @@ const Masterdata = () => {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Edit Department Dialog */}
+      <Dialog open={isEditDeptDialogOpen} onOpenChange={setIsEditDeptDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Department</DialogTitle>
+          </DialogHeader>
+          {editingDepartment && (
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="editDeptName">Department Name</Label>
+                <Input
+                  id="editDeptName"
+                  value={editingDepartment.name}
+                  onChange={(e) => setEditingDepartment({...editingDepartment, name: e.target.value})}
+                />
+              </div>
+              <div>
+                <Label htmlFor="editDeptDesc">Description</Label>
+                <Input
+                  id="editDeptDesc"
+                  value={editingDepartment.description}
+                  onChange={(e) => setEditingDepartment({...editingDepartment, description: e.target.value})}
+                />
+              </div>
+              <div>
+                <Label htmlFor="editDeptManager">Manager</Label>
+                <Input
+                  id="editDeptManager"
+                  value={editingDepartment.manager}
+                  onChange={(e) => setEditingDepartment({...editingDepartment, manager: e.target.value})}
+                />
+              </div>
+              <Button onClick={handleUpdateDepartment} className="w-full">
+                Update Department
+              </Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit User Dialog */}
+      <Dialog open={isEditUserDialogOpen} onOpenChange={setIsEditUserDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit User</DialogTitle>
+          </DialogHeader>
+          {editingUser && (
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="editUserName">Name</Label>
+                <Input
+                  id="editUserName"
+                  value={editingUser.name}
+                  onChange={(e) => setEditingUser({...editingUser, name: e.target.value})}
+                />
+              </div>
+              <div>
+                <Label htmlFor="editUserEmail">Email</Label>
+                <Input
+                  id="editUserEmail"
+                  type="email"
+                  value={editingUser.email}
+                  onChange={(e) => setEditingUser({...editingUser, email: e.target.value})}
+                />
+              </div>
+              <div>
+                <Label htmlFor="editUserPassword">Password (leave empty to keep current)</Label>
+                <Input
+                  id="editUserPassword"
+                  type="password"
+                  placeholder="Enter new password"
+                />
+              </div>
+              <div>
+                <Label htmlFor="editUserRole">Role</Label>
+                <Select value={editingUser.role} onValueChange={(value) => setEditingUser({...editingUser, role: value})}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Manager">Manager</SelectItem>
+                    <SelectItem value="Developer">Developer</SelectItem>
+                    <SelectItem value="Designer">Designer</SelectItem>
+                    <SelectItem value="Analyst">Analyst</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="editUserDept">Department</Label>
+                <Select value={editingUser.department} onValueChange={(value) => setEditingUser({...editingUser, department: value})}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {departments.map((dept) => (
+                      <SelectItem key={dept.id} value={dept.name}>{dept.name}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="editUserStatus">Status</Label>
+                <Select value={editingUser.status} onValueChange={(value) => setEditingUser({...editingUser, status: value})}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Active">Active</SelectItem>
+                    <SelectItem value="Inactive">Inactive</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <Button onClick={handleUpdateUser} className="w-full">
+                Update User
+              </Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
