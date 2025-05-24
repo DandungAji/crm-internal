@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus, Search, FileText, Download, Eye, Send } from "lucide-react";
+import { Plus, Search, Eye, Send, Filter } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import InvoiceGenerator from "@/components/InvoiceGenerator";
 
@@ -26,6 +27,7 @@ type Invoice = {
 
 const Invoice = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [isPreviewDialogOpen, setIsPreviewDialogOpen] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
@@ -126,13 +128,15 @@ const Invoice = () => {
     });
   };
 
-  const handleMarkAsPaid = (invoiceId: number) => {
+  const handleChangeStatus = (invoiceId: number, newStatus: "paid" | "sent") => {
     setInvoices(invoices.map(inv => 
-      inv.id === invoiceId ? { ...inv, status: "paid" as const } : inv
+      inv.id === invoiceId ? { ...inv, status: newStatus } : inv
     ));
+    
+    const statusText = newStatus === "paid" ? "paid" : "unpaid";
     toast({
       title: "Success",
-      description: "Invoice marked as paid"
+      description: `Invoice marked as ${statusText}`
     });
   };
 
@@ -146,11 +150,27 @@ const Invoice = () => {
     }
   };
 
-  const filteredInvoices = invoices.filter(invoice =>
-    invoice.projectName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    invoice.clientName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    invoice.invoiceNumber.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const getStatusButtonText = (status: string) => {
+    switch (status) {
+      case "paid": return "Mark Unpaid";
+      case "sent": return "Mark Paid";
+      default: return "";
+    }
+  };
+
+  const getNewStatus = (currentStatus: string): "paid" | "sent" => {
+    return currentStatus === "paid" ? "sent" : "paid";
+  };
+
+  const filteredInvoices = invoices.filter(invoice => {
+    const matchesSearch = invoice.projectName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      invoice.clientName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      invoice.invoiceNumber.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    const matchesStatus = statusFilter === "all" || invoice.status === statusFilter;
+    
+    return matchesSearch && matchesStatus;
+  });
 
   return (
     <div className="space-y-6">
@@ -231,15 +251,30 @@ const Invoice = () => {
         </Dialog>
       </div>
 
-      {/* Search */}
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
-        <Input
-          placeholder="Search invoices..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="pl-10"
-        />
+      {/* Search and Filter */}
+      <div className="flex gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
+          <Input
+            placeholder="Search invoices..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+        <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <SelectTrigger className="w-48">
+            <Filter className="h-4 w-4 mr-2" />
+            <SelectValue placeholder="Filter by status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="draft">Draft</SelectItem>
+            <SelectItem value="sent">Sent</SelectItem>
+            <SelectItem value="paid">Paid</SelectItem>
+            <SelectItem value="overdue">Overdue</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Invoices Grid */}
@@ -295,14 +330,31 @@ const Invoice = () => {
                     Send
                   </Button>
                 )}
-                {invoice.status === "sent" && (
-                  <Button
-                    size="sm"
-                    onClick={() => handleMarkAsPaid(invoice.id)}
-                    className="flex-1 bg-green-600 hover:bg-green-700"
-                  >
-                    Mark Paid
-                  </Button>
+                {(invoice.status === "sent" || invoice.status === "paid") && (
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button
+                        size="sm"
+                        className={`flex-1 ${invoice.status === "paid" ? "bg-orange-600 hover:bg-orange-700" : "bg-green-600 hover:bg-green-700"}`}
+                      >
+                        {getStatusButtonText(invoice.status)}
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Change Invoice Status</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Are you sure you want to mark this invoice as {getNewStatus(invoice.status) === "paid" ? "paid" : "unpaid"}?
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => handleChangeStatus(invoice.id, getNewStatus(invoice.status))}>
+                          Confirm
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 )}
               </div>
             </CardContent>
@@ -313,7 +365,9 @@ const Invoice = () => {
       {filteredInvoices.length === 0 && (
         <div className="text-center py-12">
           <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100 mb-2">No invoices found</h3>
-          <p className="text-slate-600 dark:text-slate-400 mb-4">Create your first invoice to get started</p>
+          <p className="text-slate-600 dark:text-slate-400 mb-4">
+            {statusFilter !== "all" ? `No invoices with status "${statusFilter}" found` : "Create your first invoice to get started"}
+          </p>
           <Button onClick={() => setIsCreateDialogOpen(true)}>
             <Plus className="h-4 w-4 mr-2" />
             Create Invoice
@@ -328,8 +382,7 @@ const Invoice = () => {
           id: selectedInvoice.id,
           name: selectedInvoice.projectName,
           client: selectedInvoice.clientName,
-          budget: selectedInvoice.amount,
-          description: selectedInvoice.description
+          budget: selectedInvoice.amount
         } : null}
       />
     </div>
