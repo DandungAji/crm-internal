@@ -2,39 +2,52 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { 
-  Search, 
-  Plus, 
-  Filter, 
-  Download, 
-  File as FileIcon, 
+import {
+  Search,
+  Plus,
+  Filter,
+  Download,
+  File as FileIcon,
   FileText,
   FileImage,
   FileSpreadsheet,
   Presentation,
   MoreHorizontal,
   FolderOpen,
-  ChevronRight
+  ChevronRight,
+  Trash2,
 } from "lucide-react";
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuLabel, 
-  DropdownMenuSeparator, 
-  DropdownMenuTrigger 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
@@ -67,7 +80,7 @@ const Files = () => {
       project: "Website Redesign",
       uploadedBy: "Alice",
       lastModified: "2024-01-15",
-      path: "/Website Redesign/Design/Mockups"
+      path: "/Website Redesign/Design/Mockups",
     },
     {
       id: 2,
@@ -77,7 +90,7 @@ const Files = () => {
       project: "Website Redesign",
       uploadedBy: "Bob",
       lastModified: "2024-01-12",
-      path: "/Website Redesign/Planning"
+      path: "/Website Redesign/Planning",
     },
     {
       id: 3,
@@ -87,7 +100,7 @@ const Files = () => {
       project: "Mobile App Development",
       uploadedBy: "Charlie",
       lastModified: "2024-01-10",
-      path: "/Mobile App Development/Design"
+      path: "/Mobile App Development/Design",
     },
     {
       id: 4,
@@ -97,7 +110,7 @@ const Files = () => {
       project: "Mobile App Development",
       uploadedBy: "David",
       lastModified: "2024-01-08",
-      path: "/Mobile App Development/Documentation"
+      path: "/Mobile App Development/Documentation",
     },
     {
       id: 5,
@@ -107,7 +120,7 @@ const Files = () => {
       project: "Marketing Campaign",
       uploadedBy: "Diana",
       lastModified: "2023-12-28",
-      path: "/Marketing Campaign/Strategy"
+      path: "/Marketing Campaign/Strategy",
     },
     {
       id: 6,
@@ -117,7 +130,7 @@ const Files = () => {
       project: "Marketing Campaign",
       uploadedBy: "Diana",
       lastModified: "2023-12-29",
-      path: "/Marketing Campaign/Planning"
+      path: "/Marketing Campaign/Planning",
     },
     {
       id: 7,
@@ -127,7 +140,7 @@ const Files = () => {
       project: "Database Migration",
       uploadedBy: "Eve",
       lastModified: "2024-01-05",
-      path: "/Database Migration/Planning"
+      path: "/Database Migration/Planning",
     },
     {
       id: 8,
@@ -137,8 +150,8 @@ const Files = () => {
       project: "Employee Training Portal",
       uploadedBy: "Grace",
       lastModified: "2023-12-15",
-      path: "/Employee Training Portal/Content"
-    }
+      path: "/Employee Training Portal/Content",
+    },
   ]);
 
   // Mock projects for filtering
@@ -148,7 +161,7 @@ const Files = () => {
     { id: "mobile-app", name: "Mobile App Development" },
     { id: "marketing", name: "Marketing Campaign" },
     { id: "database", name: "Database Migration" },
-    { id: "training", name: "Employee Training Portal" }
+    { id: "training", name: "Employee Training Portal" },
   ];
 
   const fileTypes = [
@@ -157,7 +170,7 @@ const Files = () => {
     { id: "spreadsheet", name: "Spreadsheets" },
     { id: "presentation", name: "Presentations" },
     { id: "pdf", name: "PDFs" },
-    { id: "image", name: "Images" }
+    { id: "image", name: "Images" },
   ];
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -165,14 +178,19 @@ const Files = () => {
     // Here we'll just simulate adding a new file to our list
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
-      
+
       // Determine file type
       let type = "document";
       if (file.type.includes("image")) type = "image";
       if (file.type.includes("pdf")) type = "pdf";
-      if (file.type.includes("spreadsheet") || file.type.includes("excel")) type = "spreadsheet";
-      if (file.type.includes("presentation") || file.type.includes("powerpoint")) type = "presentation";
-      
+      if (file.type.includes("spreadsheet") || file.type.includes("excel"))
+        type = "spreadsheet";
+      if (
+        file.type.includes("presentation") ||
+        file.type.includes("powerpoint")
+      )
+        type = "presentation";
+
       const newFile: File = {
         id: files.length + 1,
         name: file.name,
@@ -180,13 +198,13 @@ const Files = () => {
         size: `${(file.size / (1024 * 1024)).toFixed(1)} MB`,
         project: "Unassigned",
         uploadedBy: "You",
-        lastModified: new Date().toISOString().split('T')[0],
-        path: "/Uploads"
+        lastModified: new Date().toISOString().split("T")[0],
+        path: "/Uploads",
       };
-      
-      setFiles(prev => [newFile, ...prev]);
+
+      setFiles((prev) => [newFile, ...prev]);
       setIsUploadOpen(false);
-      
+
       toast({
         title: "File Uploaded",
         description: `${file.name} has been uploaded successfully.`,
@@ -195,7 +213,7 @@ const Files = () => {
   };
 
   const handleDeleteFile = (fileId: number) => {
-    setFiles(prev => prev.filter(file => file.id !== fileId));
+    setFiles((prev) => prev.filter((file) => file.id !== fileId));
     toast({
       title: "File Deleted",
       description: "The file has been deleted.",
@@ -228,24 +246,36 @@ const Files = () => {
   };
 
   // Filter files based on search query, project, type, and active tab
-  const filteredFiles = files.filter(file => {
-    const matchesSearch = file.name.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesProject = projectFilter === "all" || file.project.toLowerCase().includes(projectFilter.toLowerCase());
+  const filteredFiles = files.filter((file) => {
+    const matchesSearch = file.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const matchesProject =
+      projectFilter === "all" ||
+      file.project.toLowerCase().includes(projectFilter.toLowerCase());
     const matchesType = typeFilter === "all" || file.type === typeFilter;
-    
+
     // Filter based on active tab
-    if (activeTab === "all") return matchesSearch && matchesProject && matchesType;
+    if (activeTab === "all")
+      return matchesSearch && matchesProject && matchesType;
     if (activeTab === "recent") {
       const oneWeekAgo = new Date();
       oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
       const fileDate = new Date(file.lastModified);
-      return matchesSearch && matchesProject && matchesType && fileDate >= oneWeekAgo;
+      return (
+        matchesSearch && matchesProject && matchesType && fileDate >= oneWeekAgo
+      );
     }
     if (activeTab === "shared") {
       // For demo purposes, let's consider files from other users as "shared"
-      return matchesSearch && matchesProject && matchesType && file.uploadedBy !== "You";
+      return (
+        matchesSearch &&
+        matchesProject &&
+        matchesType &&
+        file.uploadedBy !== "You"
+      );
     }
-    
+
     return false;
   });
 
@@ -255,9 +285,11 @@ const Files = () => {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-slate-900">Files</h1>
-          <p className="text-slate-600 mt-1">Manage and access your project files</p>
+          <p className="text-slate-600 mt-1">
+            Manage and access your project files
+          </p>
         </div>
-        
+
         <Dialog open={isUploadOpen} onOpenChange={setIsUploadOpen}>
           <DialogTrigger asChild>
             <Button className="bg-blue-600 hover:bg-blue-700">
@@ -318,7 +350,9 @@ const Files = () => {
             </SelectTrigger>
             <SelectContent>
               {projects.map((project) => (
-                <SelectItem key={project.id} value={project.id}>{project.name}</SelectItem>
+                <SelectItem key={project.id} value={project.id}>
+                  {project.name}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -328,7 +362,9 @@ const Files = () => {
             </SelectTrigger>
             <SelectContent>
               {fileTypes.map((type) => (
-                <SelectItem key={type.id} value={type.id}>{type.name}</SelectItem>
+                <SelectItem key={type.id} value={type.id}>
+                  {type.name}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -363,10 +399,12 @@ const Files = () => {
                       </div>
                       <div className="text-xs text-slate-500 mt-1 flex items-center">
                         <FolderOpen className="h-3 w-3 mr-1" />
-                        {file.path.split('/').map((segment, index, array) => (
+                        {file.path.split("/").map((segment, index, array) => (
                           <span key={index} className="flex items-center">
                             {segment}
-                            {index < array.length - 1 && <ChevronRight className="h-3 w-3 mx-1" />}
+                            {index < array.length - 1 && (
+                              <ChevronRight className="h-3 w-3 mx-1" />
+                            )}
                           </span>
                         ))}
                       </div>
@@ -391,26 +429,29 @@ const Files = () => {
                     <TableCell className="text-right">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-8 w-8 p-0"
+                          >
                             <span className="sr-only">Open menu</span>
                             <MoreHorizontal className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem onClick={() => handleDownloadFile(file.name)}>
+                          <DropdownMenuItem
+                            onClick={() => handleDownloadFile(file.name)}
+                          >
                             <Download className="h-4 w-4 mr-2" />
                             Download
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem onClick={() => handleDeleteFile(file.id)} className="text-red-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 mr-2">
-                              <path d="M3 6h18" />
-                              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                              <line x1="10" y1="11" x2="10" y2="17" />
-                              <line x1="14" y1="11" x2="14" y2="17" />
-                            </svg>
+                          <DropdownMenuItem
+                            onClick={() => handleDeleteFile(file.id)}
+                            className="text-red-600"
+                          >
+                            <Trash2 className="h-4 w-4 mr-2" />
                             Delete
                           </DropdownMenuItem>
                         </DropdownMenuContent>

@@ -397,10 +397,7 @@ const Projects = () => {
                       <MoreHorizontal className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    align="end"
-                    className="bg-white dark:bg-slate-800"
-                  >
+                  <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Project Options</DropdownMenuLabel>
                     <DropdownMenuItem
                       onClick={() => navigate(`/projects/${project.id}`)}
@@ -421,7 +418,10 @@ const Projects = () => {
                     <DropdownMenuSeparator />
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
-                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                        <DropdownMenuItem
+                          onSelect={(e) => e.preventDefault()}
+                          className="text-red-600"
+                        >
                           <Trash2 className="h-4 w-4 mr-2" />
                           Delete Project
                         </DropdownMenuItem>

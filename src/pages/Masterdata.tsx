@@ -1,24 +1,51 @@
-
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Trash2, Settings } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type Department = {
   id: number;
@@ -40,24 +67,103 @@ type User = {
 
 const Masterdata = () => {
   const [departments, setDepartments] = useState<Department[]>([
-    { id: 1, name: "Engineering", description: "Software development team", manager: "John Doe", memberCount: 12 },
-    { id: 2, name: "Marketing", description: "Brand and digital marketing", manager: "Jane Smith", memberCount: 6 },
-    { id: 3, name: "Sales", description: "Business development and sales", manager: "Mike Johnson", memberCount: 8 },
-    { id: 4, name: "HR", description: "Human resources and recruitment", manager: "Sarah Wilson", memberCount: 4 }
+    {
+      id: 1,
+      name: "Engineering",
+      description: "Software development team",
+      manager: "John Doe",
+      memberCount: 12,
+    },
+    {
+      id: 2,
+      name: "Marketing",
+      description: "Brand and digital marketing",
+      manager: "Jane Smith",
+      memberCount: 6,
+    },
+    {
+      id: 3,
+      name: "Sales",
+      description: "Business development and sales",
+      manager: "Mike Johnson",
+      memberCount: 8,
+    },
+    {
+      id: 4,
+      name: "HR",
+      description: "Human resources and recruitment",
+      manager: "Sarah Wilson",
+      memberCount: 4,
+    },
   ]);
 
   const [users, setUsers] = useState<User[]>([
-    { id: 1, name: "John Doe", email: "john@company.com", role: "Manager", department: "Engineering", status: "Active" },
-    { id: 2, name: "Jane Smith", email: "jane@company.com", role: "Manager", department: "Marketing", status: "Active" },
-    { id: 3, name: "Mike Johnson", email: "mike@company.com", role: "Manager", department: "Sales", status: "Active" },
-    { id: 4, name: "Sarah Wilson", email: "sarah@company.com", role: "Manager", department: "HR", status: "Active" },
-    { id: 5, name: "Alice Brown", email: "alice@company.com", role: "Developer", department: "Engineering", status: "Active" },
-    { id: 6, name: "Bob Davis", email: "bob@company.com", role: "Designer", department: "Marketing", status: "Inactive" }
+    {
+      id: 1,
+      name: "John Doe",
+      email: "john@company.com",
+      role: "Manager",
+      department: "Engineering",
+      status: "Active",
+    },
+    {
+      id: 2,
+      name: "Jane Smith",
+      email: "jane@company.com",
+      role: "Manager",
+      department: "Marketing",
+      status: "Active",
+    },
+    {
+      id: 3,
+      name: "Mike Johnson",
+      email: "mike@company.com",
+      role: "Manager",
+      department: "Sales",
+      status: "Active",
+    },
+    {
+      id: 4,
+      name: "Sarah Wilson",
+      email: "sarah@company.com",
+      role: "Manager",
+      department: "HR",
+      status: "Active",
+    },
+    {
+      id: 5,
+      name: "Alice Brown",
+      email: "alice@company.com",
+      role: "Developer",
+      department: "Engineering",
+      status: "Active",
+    },
+    {
+      id: 6,
+      name: "Bob Davis",
+      email: "bob@company.com",
+      role: "Designer",
+      department: "Marketing",
+      status: "Inactive",
+    },
   ]);
 
-  const [newDepartment, setNewDepartment] = useState({ name: "", description: "", manager: "" });
-  const [newUser, setNewUser] = useState({ name: "", email: "", role: "", department: "", status: "Active", password: "" });
-  const [editingDepartment, setEditingDepartment] = useState<Department | null>(null);
+  const [newDepartment, setNewDepartment] = useState({
+    name: "",
+    description: "",
+    manager: "",
+  });
+  const [newUser, setNewUser] = useState({
+    name: "",
+    email: "",
+    role: "",
+    department: "",
+    status: "Active",
+    password: "",
+  });
+  const [editingDepartment, setEditingDepartment] = useState<Department | null>(
+    null
+  );
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [isDeptDialogOpen, setIsDeptDialogOpen] = useState(false);
   const [isUserDialogOpen, setIsUserDialogOpen] = useState(false);
@@ -65,11 +171,15 @@ const Masterdata = () => {
   const [isEditUserDialogOpen, setIsEditUserDialogOpen] = useState(false);
 
   const handleAddDepartment = () => {
-    if (!newDepartment.name || !newDepartment.description || !newDepartment.manager) {
+    if (
+      !newDepartment.name ||
+      !newDepartment.description ||
+      !newDepartment.manager
+    ) {
       toast({
         title: "Error",
         description: "Please fill in all fields",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
@@ -79,7 +189,7 @@ const Masterdata = () => {
       name: newDepartment.name,
       description: newDepartment.description,
       manager: newDepartment.manager,
-      memberCount: 0
+      memberCount: 0,
     };
 
     setDepartments([...departments, department]);
@@ -87,7 +197,7 @@ const Masterdata = () => {
     setIsDeptDialogOpen(false);
     toast({
       title: "Success",
-      description: "Department added successfully"
+      description: "Department added successfully",
     });
   };
 
@@ -99,38 +209,53 @@ const Masterdata = () => {
   const handleUpdateDepartment = () => {
     if (!editingDepartment) return;
 
-    setDepartments(departments.map(dept => 
-      dept.id === editingDepartment.id ? editingDepartment : dept
-    ));
+    setDepartments(
+      departments.map((dept) =>
+        dept.id === editingDepartment.id ? editingDepartment : dept
+      )
+    );
     setEditingDepartment(null);
     setIsEditDeptDialogOpen(false);
     toast({
       title: "Success",
-      description: "Department updated successfully"
+      description: "Department updated successfully",
     });
   };
 
   const handleAddUser = () => {
-    if (!newUser.name || !newUser.email || !newUser.role || !newUser.department || !newUser.password) {
+    if (
+      !newUser.name ||
+      !newUser.email ||
+      !newUser.role ||
+      !newUser.department ||
+      !newUser.password
+    ) {
       toast({
         title: "Error",
         description: "Please fill in all fields",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
 
     const user: User = {
       id: users.length + 1,
-      ...newUser
+      ...newUser,
     };
 
     setUsers([...users, user]);
-    setNewUser({ name: "", email: "", role: "", department: "", status: "Active", password: "" });
+    setNewUser({
+      name: "",
+      email: "",
+      role: "",
+      department: "",
+      status: "Active",
+      password: "",
+    });
     setIsUserDialogOpen(false);
     toast({
       title: "Success",
-      description: "User added successfully"
+      description: "User added successfully",
     });
   };
 
@@ -142,42 +267,48 @@ const Masterdata = () => {
   const handleUpdateUser = () => {
     if (!editingUser) return;
 
-    setUsers(users.map(user => 
-      user.id === editingUser.id ? editingUser : user
-    ));
+    setUsers(
+      users.map((user) => (user.id === editingUser.id ? editingUser : user))
+    );
     setEditingUser(null);
     setIsEditUserDialogOpen(false);
     toast({
       title: "Success",
-      description: "User updated successfully"
+      description: "User updated successfully",
     });
   };
 
   const handleDeleteDepartment = (id: number) => {
-    setDepartments(departments.filter(dept => dept.id !== id));
+    setDepartments(departments.filter((dept) => dept.id !== id));
     toast({
       title: "Success",
-      description: "Department deleted successfully"
+      description: "Department deleted successfully",
     });
   };
 
   const handleDeleteUser = (id: number) => {
-    setUsers(users.filter(user => user.id !== id));
+    setUsers(users.filter((user) => user.id !== id));
     toast({
       title: "Success",
-      description: "User deleted successfully"
+      description: "User deleted successfully",
     });
   };
 
   const getStatusColor = (status: string) => {
-    return status === "Active" ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300" : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
+    return status === "Active"
+      ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
+      : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
   };
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">Masterdata Management</h1>
-        <p className="text-slate-600 dark:text-slate-400 mt-1">Manage departments and users</p>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">
+          Masterdata Management
+        </h1>
+        <p className="text-slate-600 dark:text-slate-400 mt-1">
+          Manage departments and users
+        </p>
       </div>
 
       <Tabs defaultValue="departments" className="space-y-4">
@@ -192,9 +323,14 @@ const Masterdata = () => {
               <div className="flex justify-between items-center">
                 <div>
                   <CardTitle>Departments</CardTitle>
-                  <CardDescription>Manage organizational departments</CardDescription>
+                  <CardDescription>
+                    Manage organizational departments
+                  </CardDescription>
                 </div>
-                <Dialog open={isDeptDialogOpen} onOpenChange={setIsDeptDialogOpen}>
+                <Dialog
+                  open={isDeptDialogOpen}
+                  onOpenChange={setIsDeptDialogOpen}
+                >
                   <DialogTrigger asChild>
                     <Button className="bg-blue-600 hover:bg-blue-700">
                       <Plus className="h-4 w-4 mr-2" />
@@ -211,7 +347,12 @@ const Masterdata = () => {
                         <Input
                           id="deptName"
                           value={newDepartment.name}
-                          onChange={(e) => setNewDepartment({...newDepartment, name: e.target.value})}
+                          onChange={(e) =>
+                            setNewDepartment({
+                              ...newDepartment,
+                              name: e.target.value,
+                            })
+                          }
                         />
                       </div>
                       <div>
@@ -219,7 +360,12 @@ const Masterdata = () => {
                         <Input
                           id="deptDesc"
                           value={newDepartment.description}
-                          onChange={(e) => setNewDepartment({...newDepartment, description: e.target.value})}
+                          onChange={(e) =>
+                            setNewDepartment({
+                              ...newDepartment,
+                              description: e.target.value,
+                            })
+                          }
                         />
                       </div>
                       <div>
@@ -227,7 +373,12 @@ const Masterdata = () => {
                         <Input
                           id="deptManager"
                           value={newDepartment.manager}
-                          onChange={(e) => setNewDepartment({...newDepartment, manager: e.target.value})}
+                          onChange={(e) =>
+                            setNewDepartment({
+                              ...newDepartment,
+                              manager: e.target.value,
+                            })
+                          }
                         />
                       </div>
                       <Button onClick={handleAddDepartment} className="w-full">
@@ -258,25 +409,41 @@ const Masterdata = () => {
                       <TableCell>{dept.memberCount}</TableCell>
                       <TableCell>
                         <div className="flex space-x-2">
-                          <Button variant="outline" size="sm" onClick={() => handleEditDepartment(dept)}>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleEditDepartment(dept)}
+                          >
                             <Settings className="h-4 w-4" />
                           </Button>
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
-                              <Button variant="outline" size="sm">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="text-red-600"
+                              >
                                 <Trash2 className="h-4 w-4" />
                               </Button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                               <AlertDialogHeader>
-                                <AlertDialogTitle>Delete Department</AlertDialogTitle>
+                                <AlertDialogTitle>
+                                  Delete Department
+                                </AlertDialogTitle>
                                 <AlertDialogDescription>
-                                  Are you sure you want to delete this department? This action cannot be undone.
+                                  Are you sure you want to delete this
+                                  department? This action cannot be undone.
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
                               <AlertDialogFooter>
                                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={() => handleDeleteDepartment(dept.id)}>
+                                <AlertDialogAction
+                                  onClick={() =>
+                                    handleDeleteDepartment(dept.id)
+                                  }
+                                  className="bg-red-600 hover:bg-red-700"
+                                >
                                   Delete
                                 </AlertDialogAction>
                               </AlertDialogFooter>
@@ -300,7 +467,10 @@ const Masterdata = () => {
                   <CardTitle>Users</CardTitle>
                   <CardDescription>Manage system users</CardDescription>
                 </div>
-                <Dialog open={isUserDialogOpen} onOpenChange={setIsUserDialogOpen}>
+                <Dialog
+                  open={isUserDialogOpen}
+                  onOpenChange={setIsUserDialogOpen}
+                >
                   <DialogTrigger asChild>
                     <Button className="bg-blue-600 hover:bg-blue-700">
                       <Plus className="h-4 w-4 mr-2" />
@@ -317,7 +487,9 @@ const Masterdata = () => {
                         <Input
                           id="userName"
                           value={newUser.name}
-                          onChange={(e) => setNewUser({...newUser, name: e.target.value})}
+                          onChange={(e) =>
+                            setNewUser({ ...newUser, name: e.target.value })
+                          }
                         />
                       </div>
                       <div>
@@ -326,7 +498,9 @@ const Masterdata = () => {
                           id="userEmail"
                           type="email"
                           value={newUser.email}
-                          onChange={(e) => setNewUser({...newUser, email: e.target.value})}
+                          onChange={(e) =>
+                            setNewUser({ ...newUser, email: e.target.value })
+                          }
                         />
                       </div>
                       <div>
@@ -335,13 +509,20 @@ const Masterdata = () => {
                           id="userPassword"
                           type="password"
                           value={newUser.password}
-                          onChange={(e) => setNewUser({...newUser, password: e.target.value})}
+                          onChange={(e) =>
+                            setNewUser({ ...newUser, password: e.target.value })
+                          }
                           placeholder="Enter password"
                         />
                       </div>
                       <div>
                         <Label htmlFor="userRole">Role</Label>
-                        <Select value={newUser.role} onValueChange={(value) => setNewUser({...newUser, role: value})}>
+                        <Select
+                          value={newUser.role}
+                          onValueChange={(value) =>
+                            setNewUser({ ...newUser, role: value })
+                          }
+                        >
                           <SelectTrigger>
                             <SelectValue placeholder="Select role" />
                           </SelectTrigger>
@@ -355,13 +536,20 @@ const Masterdata = () => {
                       </div>
                       <div>
                         <Label htmlFor="userDept">Department</Label>
-                        <Select value={newUser.department} onValueChange={(value) => setNewUser({...newUser, department: value})}>
+                        <Select
+                          value={newUser.department}
+                          onValueChange={(value) =>
+                            setNewUser({ ...newUser, department: value })
+                          }
+                        >
                           <SelectTrigger>
                             <SelectValue placeholder="Select department" />
                           </SelectTrigger>
                           <SelectContent>
                             {departments.map((dept) => (
-                              <SelectItem key={dept.id} value={dept.name}>{dept.name}</SelectItem>
+                              <SelectItem key={dept.id} value={dept.name}>
+                                {dept.name}
+                              </SelectItem>
                             ))}
                           </SelectContent>
                         </Select>
@@ -400,7 +588,11 @@ const Masterdata = () => {
                       </TableCell>
                       <TableCell>
                         <div className="flex space-x-2">
-                          <Button variant="outline" size="sm" onClick={() => handleEditUser(user)}>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleEditUser(user)}
+                          >
                             <Settings className="h-4 w-4" />
                           </Button>
                           <AlertDialog>
@@ -413,12 +605,15 @@ const Masterdata = () => {
                               <AlertDialogHeader>
                                 <AlertDialogTitle>Delete User</AlertDialogTitle>
                                 <AlertDialogDescription>
-                                  Are you sure you want to delete this user? This action cannot be undone.
+                                  Are you sure you want to delete this user?
+                                  This action cannot be undone.
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
                               <AlertDialogFooter>
                                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={() => handleDeleteUser(user.id)}>
+                                <AlertDialogAction
+                                  onClick={() => handleDeleteUser(user.id)}
+                                >
                                   Delete
                                 </AlertDialogAction>
                               </AlertDialogFooter>
@@ -436,7 +631,10 @@ const Masterdata = () => {
       </Tabs>
 
       {/* Edit Department Dialog */}
-      <Dialog open={isEditDeptDialogOpen} onOpenChange={setIsEditDeptDialogOpen}>
+      <Dialog
+        open={isEditDeptDialogOpen}
+        onOpenChange={setIsEditDeptDialogOpen}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Edit Department</DialogTitle>
@@ -448,7 +646,12 @@ const Masterdata = () => {
                 <Input
                   id="editDeptName"
                   value={editingDepartment.name}
-                  onChange={(e) => setEditingDepartment({...editingDepartment, name: e.target.value})}
+                  onChange={(e) =>
+                    setEditingDepartment({
+                      ...editingDepartment,
+                      name: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div>
@@ -456,7 +659,12 @@ const Masterdata = () => {
                 <Input
                   id="editDeptDesc"
                   value={editingDepartment.description}
-                  onChange={(e) => setEditingDepartment({...editingDepartment, description: e.target.value})}
+                  onChange={(e) =>
+                    setEditingDepartment({
+                      ...editingDepartment,
+                      description: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div>
@@ -464,7 +672,12 @@ const Masterdata = () => {
                 <Input
                   id="editDeptManager"
                   value={editingDepartment.manager}
-                  onChange={(e) => setEditingDepartment({...editingDepartment, manager: e.target.value})}
+                  onChange={(e) =>
+                    setEditingDepartment({
+                      ...editingDepartment,
+                      manager: e.target.value,
+                    })
+                  }
                 />
               </div>
               <Button onClick={handleUpdateDepartment} className="w-full">
@@ -476,7 +689,10 @@ const Masterdata = () => {
       </Dialog>
 
       {/* Edit User Dialog */}
-      <Dialog open={isEditUserDialogOpen} onOpenChange={setIsEditUserDialogOpen}>
+      <Dialog
+        open={isEditUserDialogOpen}
+        onOpenChange={setIsEditUserDialogOpen}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Edit User</DialogTitle>
@@ -488,7 +704,9 @@ const Masterdata = () => {
                 <Input
                   id="editUserName"
                   value={editingUser.name}
-                  onChange={(e) => setEditingUser({...editingUser, name: e.target.value})}
+                  onChange={(e) =>
+                    setEditingUser({ ...editingUser, name: e.target.value })
+                  }
                 />
               </div>
               <div>
@@ -497,11 +715,15 @@ const Masterdata = () => {
                   id="editUserEmail"
                   type="email"
                   value={editingUser.email}
-                  onChange={(e) => setEditingUser({...editingUser, email: e.target.value})}
+                  onChange={(e) =>
+                    setEditingUser({ ...editingUser, email: e.target.value })
+                  }
                 />
               </div>
               <div>
-                <Label htmlFor="editUserPassword">Password (leave empty to keep current)</Label>
+                <Label htmlFor="editUserPassword">
+                  Password (leave empty to keep current)
+                </Label>
                 <Input
                   id="editUserPassword"
                   type="password"
@@ -510,7 +732,12 @@ const Masterdata = () => {
               </div>
               <div>
                 <Label htmlFor="editUserRole">Role</Label>
-                <Select value={editingUser.role} onValueChange={(value) => setEditingUser({...editingUser, role: value})}>
+                <Select
+                  value={editingUser.role}
+                  onValueChange={(value) =>
+                    setEditingUser({ ...editingUser, role: value })
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -524,20 +751,32 @@ const Masterdata = () => {
               </div>
               <div>
                 <Label htmlFor="editUserDept">Department</Label>
-                <Select value={editingUser.department} onValueChange={(value) => setEditingUser({...editingUser, department: value})}>
+                <Select
+                  value={editingUser.department}
+                  onValueChange={(value) =>
+                    setEditingUser({ ...editingUser, department: value })
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
                     {departments.map((dept) => (
-                      <SelectItem key={dept.id} value={dept.name}>{dept.name}</SelectItem>
+                      <SelectItem key={dept.id} value={dept.name}>
+                        {dept.name}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
               <div>
                 <Label htmlFor="editUserStatus">Status</Label>
-                <Select value={editingUser.status} onValueChange={(value) => setEditingUser({...editingUser, status: value})}>
+                <Select
+                  value={editingUser.status}
+                  onValueChange={(value) =>
+                    setEditingUser({ ...editingUser, status: value })
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
