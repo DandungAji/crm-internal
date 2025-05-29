@@ -1,12 +1,24 @@
-
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Calendar as CalendarIcon, Plus, Clock } from "lucide-react";
 import { format, addDays, isSameDay, isToday } from "date-fns";
@@ -31,7 +43,7 @@ const CalendarPage = () => {
     description: "",
     date: new Date(),
     time: "09:00",
-    type: "meeting"
+    type: "meeting",
   });
 
   const [events, setEvents] = useState<Event[]>([
@@ -42,7 +54,7 @@ const CalendarPage = () => {
       date: new Date(),
       time: "09:00",
       type: "meeting",
-      attendees: ["Alice", "Bob", "Charlie"]
+      attendees: ["Alice", "Bob", "Charlie"],
     },
     {
       id: 2,
@@ -51,7 +63,7 @@ const CalendarPage = () => {
       date: addDays(new Date(), 1),
       time: "14:00",
       type: "review",
-      attendees: ["Alice", "Diana", "Eve"]
+      attendees: ["Alice", "Diana", "Eve"],
     },
     {
       id: 3,
@@ -60,8 +72,8 @@ const CalendarPage = () => {
       date: addDays(new Date(), 3),
       time: "10:30",
       type: "presentation",
-      attendees: ["Alice", "Bob"]
-    }
+      attendees: ["Alice", "Bob"],
+    },
   ]);
 
   const handleCreateEvent = () => {
@@ -69,7 +81,7 @@ const CalendarPage = () => {
       toast({
         title: "Error",
         description: "Please fill in all required fields",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
@@ -81,7 +93,7 @@ const CalendarPage = () => {
       date: newEvent.date,
       time: newEvent.time,
       type: newEvent.type,
-      attendees: []
+      attendees: [],
     };
 
     setEvents([...events, event]);
@@ -90,12 +102,12 @@ const CalendarPage = () => {
       description: "",
       date: new Date(),
       time: "09:00",
-      type: "meeting"
+      type: "meeting",
     });
     setIsEventDialogOpen(false);
     toast({
       title: "Success",
-      description: "Event created successfully"
+      description: "Event created successfully",
     });
   };
 
@@ -104,16 +116,21 @@ const CalendarPage = () => {
   };
 
   const getTodaysEvents = () => {
-    return events.filter(event => isToday(event.date));
+    return events.filter((event) => isToday(event.date));
   };
 
   const getEventTypeColor = (type: string) => {
     switch (type) {
-      case "meeting": return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
-      case "review": return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300";
-      case "presentation": return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
-      case "deadline": return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
-      default: return "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300";
+      case "meeting":
+        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
+      case "review":
+        return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300";
+      case "presentation":
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
+      case "deadline":
+        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
+      default:
+        return "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300";
     }
   };
 
@@ -126,10 +143,14 @@ const CalendarPage = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">Calendar</h1>
-          <p className="text-slate-600 dark:text-slate-400 mt-1">Manage your schedule and events</p>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">
+            Calendar
+          </h1>
+          <p className="text-slate-600 dark:text-slate-400 mt-1">
+            Manage your schedule and events
+          </p>
         </div>
-        
+
         <div className="flex items-center space-x-3">
           <Button variant="outline" onClick={handleTodayClick}>
             Today
@@ -154,7 +175,9 @@ const CalendarPage = () => {
                   <Input
                     id="eventTitle"
                     value={newEvent.title}
-                    onChange={(e) => setNewEvent({...newEvent, title: e.target.value})}
+                    onChange={(e) =>
+                      setNewEvent({ ...newEvent, title: e.target.value })
+                    }
                     placeholder="Enter event title"
                   />
                 </div>
@@ -163,7 +186,9 @@ const CalendarPage = () => {
                   <Textarea
                     id="eventDesc"
                     value={newEvent.description}
-                    onChange={(e) => setNewEvent({...newEvent, description: e.target.value})}
+                    onChange={(e) =>
+                      setNewEvent({ ...newEvent, description: e.target.value })
+                    }
                     placeholder="Enter event description"
                   />
                 </div>
@@ -174,7 +199,12 @@ const CalendarPage = () => {
                       id="eventDate"
                       type="date"
                       value={format(newEvent.date, "yyyy-MM-dd")}
-                      onChange={(e) => setNewEvent({...newEvent, date: new Date(e.target.value)})}
+                      onChange={(e) =>
+                        setNewEvent({
+                          ...newEvent,
+                          date: new Date(e.target.value),
+                        })
+                      }
                     />
                   </div>
                   <div>
@@ -183,7 +213,9 @@ const CalendarPage = () => {
                       id="eventTime"
                       type="time"
                       value={newEvent.time}
-                      onChange={(e) => setNewEvent({...newEvent, time: e.target.value})}
+                      onChange={(e) =>
+                        setNewEvent({ ...newEvent, time: e.target.value })
+                      }
                     />
                   </div>
                 </div>
@@ -198,7 +230,7 @@ const CalendarPage = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Calendar */}
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-1">
           <Card className="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
             <CardHeader className="pb-4">
               <div className="flex justify-between items-center">
@@ -235,30 +267,48 @@ const CalendarPage = () => {
                     className="p-3 rounded-lg bg-slate-50 dark:bg-slate-700 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors"
                     onClick={() => handleEventClick(event)}
                   >
-                    <div className="font-medium text-sm text-slate-900 dark:text-slate-100">{event.title}</div>
-                    <div className="text-xs text-slate-600 dark:text-slate-400 mt-1">{event.time}</div>
-                    <Badge className={`${getEventTypeColor(event.type)} text-xs mt-2`}>
+                    <div className="font-medium text-sm text-slate-900 dark:text-slate-100">
+                      {event.title}
+                    </div>
+                    <div className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+                      {event.time}
+                    </div>
+                    <Badge
+                      className={`${getEventTypeColor(
+                        event.type
+                      )} text-xs mt-2`}
+                    >
                       {event.type}
                     </Badge>
                   </div>
                 ))}
                 {getTodaysEvents().length === 0 && (
-                  <p className="text-sm text-slate-500 dark:text-slate-400">No events today</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">
+                    No events today
+                  </p>
                 )}
               </div>
             </CardContent>
           </Card>
+        </div>
 
-          {/* Event Details */}
+        {/* Event Details */}
+        <div className="lg:col-span-1">
           {selectedEvent && (
-            <Card className="mt-4 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+            <Card className="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
               <CardHeader className="pb-2">
-                <CardTitle className="text-lg text-slate-900 dark:text-slate-100">Event Details</CardTitle>
+                <CardTitle className="text-lg text-slate-900 dark:text-slate-100">
+                  Event Details
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div>
-                  <h3 className="font-semibold text-slate-900 dark:text-slate-100">{selectedEvent.title}</h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{selectedEvent.description}</p>
+                  <h3 className="font-semibold text-slate-900 dark:text-slate-100">
+                    {selectedEvent.title}
+                  </h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                    {selectedEvent.description}
+                  </p>
                 </div>
                 <div className="text-sm">
                   <p className="text-slate-600 dark:text-slate-400">
@@ -268,10 +318,13 @@ const CalendarPage = () => {
                     <strong>Time:</strong> {selectedEvent.time}
                   </p>
                   <p className="text-slate-600 dark:text-slate-400">
-                    <strong>Attendees:</strong> {selectedEvent.attendees.join(", ") || "None"}
+                    <strong>Attendees:</strong>{" "}
+                    {selectedEvent.attendees.join(", ") || "None"}
                   </p>
                 </div>
-                <Badge className={`${getEventTypeColor(selectedEvent.type)} text-xs`}>
+                <Badge
+                  className={`${getEventTypeColor(selectedEvent.type)} text-xs`}
+                >
                   {selectedEvent.type}
                 </Badge>
               </CardContent>

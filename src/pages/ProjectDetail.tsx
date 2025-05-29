@@ -1,21 +1,26 @@
-
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
-import { 
-  ArrowLeft, 
-  Users, 
-  Clock, 
-  CheckSquare, 
-  FileText, 
-  MessageSquare, 
+import {
+  ArrowLeft,
+  Users,
+  Clock,
+  CheckSquare,
+  FileText,
+  MessageSquare,
   MoreHorizontal,
-  Plus
+  Plus,
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
@@ -40,7 +45,8 @@ const projectsData: Project[] = [
   {
     id: 1,
     name: "Website Redesign",
-    description: "Complete overhaul of company website with new branding and improved UX",
+    description:
+      "Complete overhaul of company website with new branding and improved UX",
     status: "In Progress",
     priority: "High",
     progress: 65,
@@ -49,7 +55,7 @@ const projectsData: Project[] = [
     tasksTotal: 24,
     tasksCompleted: 16,
     budget: "$25,000",
-    client: "Internal"
+    client: "Internal",
   },
   {
     id: 2,
@@ -63,7 +69,7 @@ const projectsData: Project[] = [
     tasksTotal: 45,
     tasksCompleted: 9,
     budget: "$50,000",
-    client: "TechCorp"
+    client: "TechCorp",
   },
   {
     id: 3,
@@ -77,7 +83,7 @@ const projectsData: Project[] = [
     tasksTotal: 15,
     tasksCompleted: 12,
     budget: "$15,000",
-    client: "Marketing Dept"
+    client: "Marketing Dept",
   },
   {
     id: 4,
@@ -91,7 +97,7 @@ const projectsData: Project[] = [
     tasksTotal: 18,
     tasksCompleted: 8,
     budget: "$30,000",
-    client: "IT Department"
+    client: "IT Department",
   },
   {
     id: 5,
@@ -105,54 +111,61 @@ const projectsData: Project[] = [
     tasksTotal: 12,
     tasksCompleted: 12,
     budget: "$20,000",
-    client: "HR Department"
-  }
+    client: "HR Department",
+  },
 ];
 
 const ProjectDetail = () => {
   const { projectId } = useParams();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("overview");
-  
+
   // Find the project by ID from our mock data
-  const project = projectsData.find(p => p.id === parseInt(projectId || "0"));
-  
+  const project = projectsData.find((p) => p.id === parseInt(projectId || "0"));
+
   // If project not found, show error message
   if (!project) {
     return (
       <div className="flex flex-col items-center justify-center h-[80vh]">
         <h2 className="text-2xl font-bold mb-2">Project Not Found</h2>
-        <p className="text-slate-600 mb-4">The project you're looking for doesn't exist or has been deleted.</p>
-        <Button onClick={() => navigate("/projects")}>Return to Projects</Button>
+        <p className="text-slate-600 mb-4">
+          The project you're looking for doesn't exist or has been deleted.
+        </p>
+        <Button onClick={() => navigate("/projects")}>
+          Return to Projects
+        </Button>
       </div>
     );
   }
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "In Progress": return "bg-blue-100 text-blue-800 border-blue-200";
-      case "Planning": return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "Review": return "bg-purple-100 text-purple-800 border-purple-200";
-      case "Completed": return "bg-green-100 text-green-800 border-green-200";
-      default: return "bg-gray-100 text-gray-800 border-gray-200";
+      case "In Progress":
+        return "bg-blue-100 text-blue-800 border-blue-200";
+      case "Planning":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      case "Review":
+        return "bg-purple-100 text-purple-800 border-purple-200";
+      case "Completed":
+        return "bg-green-100 text-green-800 border-green-200";
+      default:
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case "Critical": return "bg-red-100 text-red-800 border-red-200";
-      case "High": return "bg-orange-100 text-orange-800 border-orange-200";
-      case "Medium": return "bg-blue-100 text-blue-800 border-blue-200";
-      case "Low": return "bg-green-100 text-green-800 border-green-200";
-      default: return "bg-gray-100 text-gray-800 border-gray-200";
+      case "Critical":
+        return "bg-red-100 text-red-800 border-red-200";
+      case "High":
+        return "bg-orange-100 text-orange-800 border-orange-200";
+      case "Medium":
+        return "bg-blue-100 text-blue-800 border-blue-200";
+      case "Low":
+        return "bg-green-100 text-green-800 border-green-200";
+      default:
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
-  };
-
-  const handleAddTask = () => {
-    toast({
-      title: "Adding new task",
-      description: "Task creation feature will be implemented soon",
-    });
   };
 
   return (
@@ -160,10 +173,10 @@ const ProjectDetail = () => {
       {/* Header with navigation back */}
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={() => navigate("/projects")} 
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate("/projects")}
             className="mr-4"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -172,17 +185,17 @@ const ProjectDetail = () => {
           <h1 className="text-2xl font-bold text-slate-900">{project.name}</h1>
         </div>
         <div className="flex items-center space-x-2">
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" onClick={() => navigate("/team")}>
             <Users className="h-4 w-4 mr-2" />
             Manage Team
           </Button>
-          <Button size="sm">
+          <Button size="sm" onClick={() => navigate("/tasks")}>
             <Plus className="h-4 w-4 mr-2" />
             Add Task
           </Button>
-          <Button variant="ghost" size="sm">
+          {/* <Button variant="ghost" size="sm">
             <MoreHorizontal className="h-4 w-4" />
-          </Button>
+          </Button> */}
         </div>
       </div>
 
@@ -214,25 +227,29 @@ const ProjectDetail = () => {
 
       {/* Tabs for different views */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid grid-cols-4 mb-6">
+        <TabsList className="grid grid-cols-3 mb-6">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="tasks">Tasks</TabsTrigger>
           <TabsTrigger value="files">Files</TabsTrigger>
-          <TabsTrigger value="discussions">Discussions</TabsTrigger>
+          {/* <TabsTrigger value="discussions">Discussions</TabsTrigger> */}
         </TabsList>
-        
+
         <TabsContent value="overview" className="space-y-6">
           {/* Progress Card */}
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-lg">Project Progress</CardTitle>
-              <CardDescription>Overall completion and milestones</CardDescription>
+              <CardDescription>
+                Overall completion and milestones
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div>
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm font-medium">Overall Progress</span>
+                    <span className="text-sm font-medium">
+                      Overall Progress
+                    </span>
                     <span className="text-sm">{project.progress}%</span>
                   </div>
                   <Progress value={project.progress} className="h-2" />
@@ -240,14 +257,19 @@ const ProjectDetail = () => {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-sm font-medium">Tasks Completed</span>
-                    <span className="text-sm">{project.tasksCompleted}/{project.tasksTotal}</span>
+                    <span className="text-sm">
+                      {project.tasksCompleted}/{project.tasksTotal}
+                    </span>
                   </div>
-                  <Progress value={(project.tasksCompleted / project.tasksTotal) * 100} className="h-2" />
+                  <Progress
+                    value={(project.tasksCompleted / project.tasksTotal) * 100}
+                    className="h-2"
+                  />
                 </div>
               </div>
             </CardContent>
           </Card>
-          
+
           {/* Team Members */}
           <Card>
             <CardHeader className="pb-2">
@@ -268,7 +290,7 @@ const ProjectDetail = () => {
             </CardContent>
           </Card>
         </TabsContent>
-        
+
         <TabsContent value="tasks">
           <Card>
             <CardHeader className="pb-2">
@@ -277,7 +299,7 @@ const ProjectDetail = () => {
                   <CardTitle className="text-lg">Tasks</CardTitle>
                   <CardDescription>Manage project tasks</CardDescription>
                 </div>
-                <Button size="sm" onClick={handleAddTask}>
+                <Button size="sm" onClick={() => navigate("/tasks")}>
                   <Plus className="h-4 w-4 mr-2" />
                   Add Task
                 </Button>
@@ -288,18 +310,38 @@ const ProjectDetail = () => {
                 {[...Array(project.tasksTotal)].map((_, index) => {
                   const isCompleted = index < project.tasksCompleted;
                   return (
-                    <div key={index} className={`p-4 border rounded-lg flex items-center justify-between ${isCompleted ? 'bg-gray-50' : ''}`}>
+                    <div
+                      key={index}
+                      className={`p-4 border rounded-lg flex items-center justify-between ${
+                        isCompleted ? "bg-gray-50" : ""
+                      }`}
+                    >
                       <div className="flex items-center">
-                        <CheckSquare className={`h-5 w-5 mr-3 ${isCompleted ? 'text-green-500' : 'text-gray-400'}`} />
+                        <CheckSquare
+                          className={`h-5 w-5 mr-3 ${
+                            isCompleted ? "text-green-500" : "text-gray-400"
+                          }`}
+                        />
                         <div>
-                          <h4 className={`font-medium ${isCompleted ? 'line-through text-gray-500' : 'text-slate-900'}`}>
+                          <h4
+                            className={`font-medium ${
+                              isCompleted
+                                ? "line-through text-gray-500"
+                                : "text-slate-900"
+                            }`}
+                          >
                             Example Task {index + 1}
                           </h4>
-                          <p className="text-sm text-slate-500">Due in {Math.floor(Math.random() * 10) + 1} days</p>
+                          <p className="text-sm text-slate-500">
+                            Due in {Math.floor(Math.random() * 10) + 1} days
+                          </p>
                         </div>
                       </div>
-                      <Badge variant={isCompleted ? "outline" : "secondary"} className="text-xs">
-                        {isCompleted ? 'Completed' : 'In Progress'}
+                      <Badge
+                        variant={isCompleted ? "outline" : "secondary"}
+                        className="text-xs"
+                      >
+                        {isCompleted ? "Completed" : "In Progress"}
                       </Badge>
                     </div>
                   );
@@ -308,7 +350,7 @@ const ProjectDetail = () => {
             </CardContent>
           </Card>
         </TabsContent>
-        
+
         <TabsContent value="files">
           <Card>
             <CardHeader className="pb-2">
@@ -317,7 +359,7 @@ const ProjectDetail = () => {
                   <CardTitle className="text-lg">Files & Documents</CardTitle>
                   <CardDescription>Project files and resources</CardDescription>
                 </div>
-                <Button size="sm">
+                <Button size="sm" onClick={() => navigate("/files")}>
                   <Plus className="h-4 w-4 mr-2" />
                   Upload File
                 </Button>
@@ -326,12 +368,19 @@ const ProjectDetail = () => {
             <CardContent>
               <div className="space-y-4">
                 {[1, 2, 3].map((index) => (
-                  <div key={index} className="p-4 border rounded-lg flex items-center justify-between">
+                  <div
+                    key={index}
+                    className="p-4 border rounded-lg flex items-center justify-between"
+                  >
                     <div className="flex items-center">
                       <FileText className="h-5 w-5 mr-3 text-blue-500" />
                       <div>
-                        <h4 className="font-medium text-slate-900">Project Document {index}</h4>
-                        <p className="text-sm text-slate-500">Added {index * 2} days ago</p>
+                        <h4 className="font-medium text-slate-900">
+                          Project Document {index}
+                        </h4>
+                        <p className="text-sm text-slate-500">
+                          Added {index * 2} days ago
+                        </p>
                       </div>
                     </div>
                     <Button variant="ghost" size="sm">
@@ -343,14 +392,16 @@ const ProjectDetail = () => {
             </CardContent>
           </Card>
         </TabsContent>
-        
-        <TabsContent value="discussions">
+
+        {/* <TabsContent value="discussions">
           <Card>
             <CardHeader className="pb-2">
               <div className="flex justify-between items-center">
                 <div>
                   <CardTitle className="text-lg">Discussions</CardTitle>
-                  <CardDescription>Project conversations and updates</CardDescription>
+                  <CardDescription>
+                    Project conversations and updates
+                  </CardDescription>
                 </div>
                 <Button size="sm">
                   <MessageSquare className="h-4 w-4 mr-2" />
@@ -364,24 +415,34 @@ const ProjectDetail = () => {
                   <div key={index} className="p-4 border rounded-lg">
                     <div className="flex items-start mb-2">
                       <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs font-medium mr-3">
-                        {project.teamMembers[index % project.teamMembers.length].charAt(0)}
+                        {project.teamMembers[
+                          index % project.teamMembers.length
+                        ].charAt(0)}
                       </div>
                       <div>
                         <h4 className="font-medium text-slate-900">
-                          {project.teamMembers[index % project.teamMembers.length]}
+                          {
+                            project.teamMembers[
+                              index % project.teamMembers.length
+                            ]
+                          }
                         </h4>
-                        <p className="text-xs text-slate-500">{index} days ago</p>
+                        <p className="text-xs text-slate-500">
+                          {index} days ago
+                        </p>
                       </div>
                     </div>
                     <p className="text-slate-700">
-                      This is a sample discussion message about the project. It could include updates, questions, or important information for the team.
+                      This is a sample discussion message about the project. It
+                      could include updates, questions, or important information
+                      for the team.
                     </p>
                   </div>
                 ))}
               </div>
             </CardContent>
           </Card>
-        </TabsContent>
+        </TabsContent> */}
       </Tabs>
     </div>
   );

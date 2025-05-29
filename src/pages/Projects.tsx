@@ -1,24 +1,61 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuLabel, 
-  DropdownMenuSeparator, 
-  DropdownMenuTrigger 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus, Search, MoreHorizontal, Settings, Trash2, Users, Calendar } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Plus,
+  Search,
+  MoreHorizontal,
+  Settings,
+  Trash2,
+  Users,
+  Calendar,
+} from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import ProjectTeamManager from "@/components/ProjectTeamManager";
 import ProjectTimeline from "@/components/ProjectTimeline";
@@ -50,7 +87,8 @@ const Projects = () => {
     {
       id: 1,
       name: "Website Redesign",
-      description: "Complete overhaul of company website with new branding and improved UX",
+      description:
+        "Complete overhaul of company website with new branding and improved UX",
       status: "In Progress",
       priority: "High",
       progress: 65,
@@ -59,7 +97,7 @@ const Projects = () => {
       tasksTotal: 24,
       tasksCompleted: 16,
       budget: "$25,000",
-      client: "Internal"
+      client: "Internal",
     },
     {
       id: 2,
@@ -73,7 +111,7 @@ const Projects = () => {
       tasksTotal: 45,
       tasksCompleted: 9,
       budget: "$50,000",
-      client: "TechCorp"
+      client: "TechCorp",
     },
     {
       id: 3,
@@ -87,7 +125,7 @@ const Projects = () => {
       tasksTotal: 15,
       tasksCompleted: 12,
       budget: "$15,000",
-      client: "Marketing Dept"
+      client: "Marketing Dept",
     },
     {
       id: 4,
@@ -101,8 +139,8 @@ const Projects = () => {
       tasksTotal: 18,
       tasksCompleted: 8,
       budget: "$30,000",
-      client: "IT Department"
-    }
+      client: "IT Department",
+    },
   ]);
 
   const [newProject, setNewProject] = useState({
@@ -111,7 +149,7 @@ const Projects = () => {
     priority: "Medium",
     dueDate: "",
     budget: "",
-    client: ""
+    client: "",
   });
 
   const handleCreateProject = () => {
@@ -119,7 +157,7 @@ const Projects = () => {
       toast({
         title: "Error",
         description: "Please fill in all required fields",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
@@ -136,7 +174,7 @@ const Projects = () => {
       tasksTotal: 0,
       tasksCompleted: 0,
       budget: newProject.budget,
-      client: newProject.client
+      client: newProject.client,
     };
 
     setProjects([...projects, project]);
@@ -146,20 +184,20 @@ const Projects = () => {
       priority: "Medium",
       dueDate: "",
       budget: "",
-      client: ""
+      client: "",
     });
     setIsCreateDialogOpen(false);
     toast({
       title: "Success",
-      description: "Project created successfully"
+      description: "Project created successfully",
     });
   };
 
   const handleDeleteProject = (projectId: number) => {
-    setProjects(projects.filter(p => p.id !== projectId));
+    setProjects(projects.filter((p) => p.id !== projectId));
     toast({
       title: "Success",
-      description: "Project deleted successfully"
+      description: "Project deleted successfully",
     });
   };
 
@@ -175,27 +213,38 @@ const Projects = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "In Progress": return "bg-blue-100 text-blue-800 border-blue-200";
-      case "Planning": return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "Review": return "bg-purple-100 text-purple-800 border-purple-200";
-      case "Completed": return "bg-green-100 text-green-800 border-green-200";
-      default: return "bg-gray-100 text-gray-800 border-gray-200";
+      case "In Progress":
+        return "bg-blue-100 text-blue-800 border-blue-200";
+      case "Planning":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      case "Review":
+        return "bg-purple-100 text-purple-800 border-purple-200";
+      case "Completed":
+        return "bg-green-100 text-green-800 border-green-200";
+      default:
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case "Critical": return "bg-red-100 text-red-800 border-red-200";
-      case "High": return "bg-orange-100 text-orange-800 border-orange-200";
-      case "Medium": return "bg-blue-100 text-blue-800 border-blue-200";
-      case "Low": return "bg-green-100 text-green-800 border-green-200";
-      default: return "bg-gray-100 text-gray-800 border-gray-200";
+      case "Critical":
+        return "bg-red-100 text-red-800 border-red-200";
+      case "High":
+        return "bg-orange-100 text-orange-800 border-orange-200";
+      case "Medium":
+        return "bg-blue-100 text-blue-800 border-blue-200";
+      case "Low":
+        return "bg-green-100 text-green-800 border-green-200";
+      default:
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
-  const filteredProjects = projects.filter(project =>
-    project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    project.description.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredProjects = projects.filter(
+    (project) =>
+      project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      project.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -206,7 +255,7 @@ const Projects = () => {
           <h1 className="text-3xl font-bold text-slate-900">Projects</h1>
           <p className="text-slate-600 mt-1">Manage and track your projects</p>
         </div>
-        
+
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
           <DialogTrigger asChild>
             <Button className="bg-blue-600 hover:bg-blue-700">
@@ -227,7 +276,9 @@ const Projects = () => {
                 <Input
                   id="projectName"
                   value={newProject.name}
-                  onChange={(e) => setNewProject({...newProject, name: e.target.value})}
+                  onChange={(e) =>
+                    setNewProject({ ...newProject, name: e.target.value })
+                  }
                   placeholder="Enter project name"
                 />
               </div>
@@ -236,14 +287,24 @@ const Projects = () => {
                 <Textarea
                   id="projectDesc"
                   value={newProject.description}
-                  onChange={(e) => setNewProject({...newProject, description: e.target.value})}
+                  onChange={(e) =>
+                    setNewProject({
+                      ...newProject,
+                      description: e.target.value,
+                    })
+                  }
                   placeholder="Enter project description"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="projectPriority">Priority</Label>
-                  <Select value={newProject.priority} onValueChange={(value) => setNewProject({...newProject, priority: value})}>
+                  <Select
+                    value={newProject.priority}
+                    onValueChange={(value) =>
+                      setNewProject({ ...newProject, priority: value })
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -261,7 +322,9 @@ const Projects = () => {
                     id="projectDueDate"
                     type="date"
                     value={newProject.dueDate}
-                    onChange={(e) => setNewProject({...newProject, dueDate: e.target.value})}
+                    onChange={(e) =>
+                      setNewProject({ ...newProject, dueDate: e.target.value })
+                    }
                   />
                 </div>
               </div>
@@ -271,7 +334,9 @@ const Projects = () => {
                   <Input
                     id="projectBudget"
                     value={newProject.budget}
-                    onChange={(e) => setNewProject({...newProject, budget: e.target.value})}
+                    onChange={(e) =>
+                      setNewProject({ ...newProject, budget: e.target.value })
+                    }
                     placeholder="$0"
                   />
                 </div>
@@ -280,7 +345,9 @@ const Projects = () => {
                   <Input
                     id="projectClient"
                     value={newProject.client}
-                    onChange={(e) => setNewProject({...newProject, client: e.target.value})}
+                    onChange={(e) =>
+                      setNewProject({ ...newProject, client: e.target.value })
+                    }
                     placeholder="Client name"
                   />
                 </div>
@@ -307,17 +374,22 @@ const Projects = () => {
       {/* Projects Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredProjects.map((project) => (
-          <Card key={project.id} className="bg-white dark:bg-slate-800 shadow-sm hover:shadow-md transition-shadow duration-200 border-slate-200 dark:border-slate-700">
+          <Card
+            key={project.id}
+            className="bg-white dark:bg-slate-800 shadow-sm hover:shadow-md transition-shadow duration-200 border-slate-200 dark:border-slate-700"
+          >
             <CardHeader className="pb-3">
               <div className="flex justify-between items-start">
                 <div className="flex-1">
-                  <CardTitle 
+                  <CardTitle
                     className="text-lg font-semibold text-slate-900 dark:text-slate-100 cursor-pointer hover:text-blue-600"
                     onClick={() => navigate(`/projects/${project.id}`)}
                   >
                     {project.name}
                   </CardTitle>
-                  <CardDescription className="mt-1 text-slate-600 dark:text-slate-400">{project.description}</CardDescription>
+                  <CardDescription className="mt-1 text-slate-600 dark:text-slate-400">
+                    {project.description}
+                  </CardDescription>
                 </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -325,17 +397,24 @@ const Projects = () => {
                       <MoreHorizontal className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="bg-white dark:bg-slate-800">
+                  <DropdownMenuContent
+                    align="end"
+                    className="bg-white dark:bg-slate-800"
+                  >
                     <DropdownMenuLabel>Project Options</DropdownMenuLabel>
-                    <DropdownMenuItem onClick={() => navigate(`/projects/${project.id}`)}>
+                    <DropdownMenuItem
+                      onClick={() => navigate(`/projects/${project.id}`)}
+                    >
                       <Settings className="h-4 w-4 mr-2" />
-                      Edit Details
+                      Details
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => handleManageTeam(project)}>
                       <Users className="h-4 w-4 mr-2" />
                       Manage Team
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => handleViewTimeline(project)}>
+                    <DropdownMenuItem
+                      onClick={() => handleViewTimeline(project)}
+                    >
                       <Calendar className="h-4 w-4 mr-2" />
                       View Timeline
                     </DropdownMenuItem>
@@ -351,12 +430,13 @@ const Projects = () => {
                         <AlertDialogHeader>
                           <AlertDialogTitle>Delete Project</AlertDialogTitle>
                           <AlertDialogDescription>
-                            Are you sure you want to delete "{project.name}"? This action cannot be undone.
+                            Are you sure you want to delete "{project.name}"?
+                            This action cannot be undone.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                           <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction 
+                          <AlertDialogAction
                             onClick={() => handleDeleteProject(project.id)}
                             className="bg-red-600 hover:bg-red-700"
                           >
@@ -374,26 +454,32 @@ const Projects = () => {
                 <Badge className={`${getStatusColor(project.status)} text-xs`}>
                   {project.status}
                 </Badge>
-                <Badge className={`${getPriorityColor(project.priority)} text-xs`}>
+                <Badge
+                  className={`${getPriorityColor(project.priority)} text-xs`}
+                >
                   {project.priority}
                 </Badge>
               </div>
-              
+
               <div>
                 <div className="flex justify-between items-center mb-1">
                   <span className="text-sm text-slate-600">Progress</span>
-                  <span className="text-sm font-medium">{project.progress}%</span>
+                  <span className="text-sm font-medium">
+                    {project.progress}%
+                  </span>
                 </div>
                 <Progress value={project.progress} className="h-2" />
               </div>
-              
+
               <div className="flex justify-between text-sm text-slate-600">
                 <span>Due: {project.dueDate}</span>
                 <span>{project.teamMembers.length} members</span>
               </div>
-              
+
               <div className="flex justify-between text-sm text-slate-600">
-                <span>Tasks: {project.tasksCompleted}/{project.tasksTotal}</span>
+                <span>
+                  Tasks: {project.tasksCompleted}/{project.tasksTotal}
+                </span>
                 <span className="font-medium">{project.budget}</span>
               </div>
             </CardContent>
@@ -403,8 +489,12 @@ const Projects = () => {
 
       {filteredProjects.length === 0 && (
         <div className="text-center py-12">
-          <h3 className="text-lg font-medium text-slate-900 mb-2">No projects found</h3>
-          <p className="text-slate-600 mb-4">Create your first project to get started</p>
+          <h3 className="text-lg font-medium text-slate-900 mb-2">
+            No projects found
+          </h3>
+          <p className="text-slate-600 mb-4">
+            Create your first project to get started
+          </p>
           <Button onClick={() => setIsCreateDialogOpen(true)}>
             <Plus className="h-4 w-4 mr-2" />
             Create Project
