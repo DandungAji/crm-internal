@@ -140,7 +140,7 @@ export function AppSidebar() {
                     <AlertDialogTrigger asChild>
                       <Button 
                         variant="ghost" 
-                        className="w-full flex items-center justify-start p-3 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-slate-100"
+                        className="w-full flex items-center justify-start p-3 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-700 dark:hover:text-red-400"
                       >
                         <LogOut className="h-5 w-5 flex-shrink-0" />
                         {!collapsed && <span className="ml-3 text-sm">Logout</span>}
@@ -155,7 +155,7 @@ export function AppSidebar() {
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={handleLogout}>
+                        <AlertDialogAction onClick={handleLogout} className="bg-red-600 hover:bg-red-700">
                           Logout
                         </AlertDialogAction>
                       </AlertDialogFooter>

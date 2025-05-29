@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -16,21 +17,11 @@ const Settings = () => {
   const { user } = useAuth();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(true);
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    // Check localStorage for saved preference
-    const saved = localStorage.getItem('darkMode');
-    return saved ? JSON.parse(saved) : false;
-  });
   const [profile, setProfile] = useState({
     name: user?.name || "John Doe",
     email: user?.email || "john.doe@example.com",
     avatarUrl: "https://github.com/shadcn.png",
   });
-
-  // Apply dark mode on component mount
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', isDarkMode);
-  }, [isDarkMode]);
 
   const handleUpdateProfile = () => {
     toast({
@@ -68,19 +59,6 @@ const Settings = () => {
     fileInputRef.current?.click();
   };
 
-  const handleDarkModeToggle = (checked: boolean) => {
-    setIsDarkMode(checked);
-    // Save preference to localStorage
-    localStorage.setItem('darkMode', JSON.stringify(checked));
-    // Apply dark mode class with smooth transition
-    document.documentElement.classList.toggle('dark', checked);
-    
-    toast({
-      title: "Appearance Updated",
-      description: `${checked ? 'Dark' : 'Light'} mode enabled.`,
-    });
-  };
-
   const handleDeleteAccount = () => {
     toast({
       title: "Account Deletion",
@@ -101,7 +79,6 @@ const Settings = () => {
       <Tabs defaultValue="account" className="space-y-4">
         <TabsList className="bg-slate-100 dark:bg-slate-800">
           <TabsTrigger value="account" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700">Account</TabsTrigger>
-          <TabsTrigger value="appearance" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700">Appearance</TabsTrigger>
           <TabsTrigger value="notifications" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700">Notifications</TabsTrigger>
           <TabsTrigger value="security" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700">Security</TabsTrigger>
         </TabsList>
@@ -196,43 +173,6 @@ const Settings = () => {
           </Card>
         </TabsContent>
         
-        <TabsContent value="appearance" className="space-y-4">
-          <Card className="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
-            <CardHeader>
-              <CardTitle className="text-slate-900 dark:text-slate-100">Appearance</CardTitle>
-              <CardDescription className="text-slate-600 dark:text-slate-400">Customize the look and feel of the application</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="flex items-center justify-between p-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
-                <div>
-                  <Label htmlFor="dark-mode" className="text-base font-medium">Dark Mode</Label>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">Switch between light and dark themes for better viewing experience</p>
-                </div>
-                <Switch
-                  id="dark-mode"
-                  checked={isDarkMode}
-                  onCheckedChange={handleDarkModeToggle}
-                  className="data-[state=checked]:bg-blue-600"
-                />
-              </div>
-              <div className="flex items-center justify-between p-4 rounded-lg border border-slate-200 dark:border-slate-700">
-                <div>
-                  <Label htmlFor="compact-mode" className="text-base font-medium">Compact Mode</Label>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">Reduce spacing for more content</p>
-                </div>
-                <Switch id="compact-mode" />
-              </div>
-              <div className="flex items-center justify-between p-4 rounded-lg border border-slate-200 dark:border-slate-700">
-                <div>
-                  <Label htmlFor="sidebar-collapsed" className="text-base font-medium">Auto-collapse Sidebar</Label>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">Automatically collapse sidebar on small screens</p>
-                </div>
-                <Switch id="sidebar-collapsed" />
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
         <TabsContent value="notifications" className="space-y-4">
           <Card className="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
             <CardHeader>
@@ -313,7 +253,7 @@ const Settings = () => {
             <CardContent>
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <Button variant="destructive">Delete Account</Button>
+                  <Button variant="destructive" className="bg-red-600 hover:bg-red-700">Delete Account</Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent className="bg-white dark:bg-slate-800">
                   <AlertDialogHeader>

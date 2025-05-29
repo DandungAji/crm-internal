@@ -7,7 +7,7 @@ import { Outlet } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Search, Plus, Bell } from "lucide-react";
+import { Search, Plus, Bell, Sun, Moon } from "lucide-react";
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -17,10 +17,12 @@ import {
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
 import { toast } from "@/hooks/use-toast";
+import { useDarkMode } from "@/hooks/useDarkMode";
 
 export function Layout() {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
   
   // Mock notifications
   const notifications = [
@@ -40,17 +42,17 @@ export function Layout() {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-gradient-to-br from-slate-50 to-slate-100">
+      <div className="min-h-screen flex w-full bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
         <AppSidebar />
         
         <div className="flex-1 flex flex-col">
-          {/* Header */}
-          <header className="bg-white shadow-sm border-b border-slate-200 h-16 flex items-center px-6">
+          {/* Header - Made sticky */}
+          <header className="sticky top-0 z-50 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md shadow-sm border-b border-slate-200 dark:border-slate-700 h-16 flex items-center px-6">
             <SidebarTrigger className="mr-4" />
             
             <div className="flex items-center space-x-4 mr-8">
-              <h1 className="text-xl font-bold text-slate-900">ProjectFlow</h1>
-              <Badge variant="secondary" className="bg-blue-100 text-blue-800 text-xs">Internal CRM</Badge>
+              <h1 className="text-xl font-bold text-slate-900 dark:text-slate-100">ProjectFlow</h1>
+              <Badge variant="secondary" className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 text-xs">Internal CRM</Badge>
             </div>
             
             {/* Search Bar */}
@@ -61,12 +63,26 @@ export function Layout() {
                   placeholder="Search projects, tasks..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 bg-slate-50 border-slate-200 focus:border-blue-500"
+                  className="pl-10 bg-slate-50 dark:bg-slate-700 border-slate-200 dark:border-slate-600 focus:border-blue-500"
                 />
               </div>
             </div>
 
             <div className="flex items-center space-x-3 ml-auto">
+              {/* Dark Mode Toggle */}
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={toggleDarkMode}
+                className="p-2"
+              >
+                {isDarkMode ? (
+                  <Sun className="h-4 w-4" />
+                ) : (
+                  <Moon className="h-4 w-4" />
+                )}
+              </Button>
+
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="sm" className="relative">
@@ -81,12 +97,12 @@ export function Layout() {
                     <DropdownMenuItem key={notification.id} className="py-2">
                       <div className="flex flex-col">
                         <span>{notification.text}</span>
-                        <span className="text-xs text-slate-500">{notification.time}</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400">{notification.time}</span>
                       </div>
                     </DropdownMenuItem>
                   ))}
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem className="justify-center text-blue-600">
+                  <DropdownMenuItem className="justify-center text-blue-600 dark:text-blue-400">
                     View all notifications
                   </DropdownMenuItem>
                 </DropdownMenuContent>
