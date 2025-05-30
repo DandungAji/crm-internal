@@ -59,7 +59,7 @@ export function Layout() {
               </h1>
               <Badge
                 variant="secondary"
-                className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 text-xs"
+                className="bg-accent hover:bg-accent text-slate-800 dark:bg-primary dark:text-slate-800 text-xs"
               >
                 Internal CRM
               </Badge>
@@ -73,7 +73,7 @@ export function Layout() {
                   placeholder="Search projects, tasks..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 bg-slate-50 dark:bg-slate-700 border-slate-200 dark:border-slate-600 focus:border-blue-500"
+                  className="pl-10 bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600 focus:border-primary-500"
                 />
               </div>
             </div>
@@ -84,7 +84,7 @@ export function Layout() {
                 variant="ghost"
                 size="sm"
                 onClick={toggleDarkMode}
-                className="p-2"
+                className="p-2 bg-accent hover:bg-accent/50"
               >
                 {isDarkMode ? (
                   <Sun className="h-4 w-4" />
@@ -95,7 +95,11 @@ export function Layout() {
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="relative">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="relative bg-accent hover:bg-accent/50"
+                  >
                     <Bell className="h-4 w-4" />
                     <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
                   </Button>
@@ -122,7 +126,7 @@ export function Layout() {
 
               <Button
                 size="sm"
-                className="bg-blue-600 hover:bg-blue-700"
+                className="bg-primary text-slate-900 hover:bg-accent"
                 onClick={handleNewProject}
               >
                 <Plus className="h-4 w-4 mr-2" />

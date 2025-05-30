@@ -332,7 +332,7 @@ const Masterdata = () => {
                   onOpenChange={setIsDeptDialogOpen}
                 >
                   <DialogTrigger asChild>
-                    <Button className="bg-blue-600 hover:bg-blue-700">
+                    <Button className="">
                       <Plus className="h-4 w-4 mr-2" />
                       Add Department
                     </Button>
@@ -472,7 +472,7 @@ const Masterdata = () => {
                   onOpenChange={setIsUserDialogOpen}
                 >
                   <DialogTrigger asChild>
-                    <Button className="bg-blue-600 hover:bg-blue-700">
+                    <Button className="">
                       <Plus className="h-4 w-4 mr-2" />
                       Add User
                     </Button>

@@ -1,14 +1,42 @@
-
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Plus, Search, Eye, Send, Filter } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import InvoiceGenerator from "@/components/InvoiceGenerator";
@@ -42,7 +70,7 @@ const Invoice = () => {
       status: "sent",
       dueDate: "2024-02-15",
       createdDate: "2024-01-15",
-      description: "Complete website redesign including UI/UX improvements"
+      description: "Complete website redesign including UI/UX improvements",
     },
     {
       id: 2,
@@ -53,7 +81,7 @@ const Invoice = () => {
       status: "paid",
       dueDate: "2024-01-30",
       createdDate: "2024-01-01",
-      description: "Native iOS and Android app development"
+      description: "Native iOS and Android app development",
     },
     {
       id: 3,
@@ -64,8 +92,8 @@ const Invoice = () => {
       status: "overdue",
       dueDate: "2024-01-20",
       createdDate: "2023-12-20",
-      description: "Digital marketing campaign across multiple channels"
-    }
+      description: "Digital marketing campaign across multiple channels",
+    },
   ]);
 
   const [newInvoice, setNewInvoice] = useState({
@@ -73,29 +101,33 @@ const Invoice = () => {
     clientName: "",
     amount: "",
     dueDate: "",
-    description: ""
+    description: "",
   });
 
   const handleCreateInvoice = () => {
-    if (!newInvoice.projectName || !newInvoice.clientName || !newInvoice.amount) {
+    if (
+      !newInvoice.projectName ||
+      !newInvoice.clientName ||
+      !newInvoice.amount
+    ) {
       toast({
         title: "Error",
         description: "Please fill in all required fields",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
 
     const invoice: Invoice = {
       id: invoices.length + 1,
-      invoiceNumber: `INV-2024-${String(invoices.length + 1).padStart(3, '0')}`,
+      invoiceNumber: `INV-2024-${String(invoices.length + 1).padStart(3, "0")}`,
       projectName: newInvoice.projectName,
       clientName: newInvoice.clientName,
       amount: newInvoice.amount,
       status: "draft",
       dueDate: newInvoice.dueDate,
-      createdDate: new Date().toISOString().split('T')[0],
-      description: newInvoice.description
+      createdDate: new Date().toISOString().split("T")[0],
+      description: newInvoice.description,
     };
 
     setInvoices([...invoices, invoice]);
@@ -104,12 +136,12 @@ const Invoice = () => {
       clientName: "",
       amount: "",
       dueDate: "",
-      description: ""
+      description: "",
     });
     setIsCreateDialogOpen(false);
     toast({
       title: "Success",
-      description: "Invoice created successfully"
+      description: "Invoice created successfully",
     });
   };
 
@@ -119,42 +151,57 @@ const Invoice = () => {
   };
 
   const handleSendInvoice = (invoiceId: number) => {
-    setInvoices(invoices.map(inv => 
-      inv.id === invoiceId ? { ...inv, status: "sent" as const } : inv
-    ));
+    setInvoices(
+      invoices.map((inv) =>
+        inv.id === invoiceId ? { ...inv, status: "sent" as const } : inv
+      )
+    );
     toast({
       title: "Success",
-      description: "Invoice sent successfully"
+      description: "Invoice sent successfully",
     });
   };
 
-  const handleChangeStatus = (invoiceId: number, newStatus: "paid" | "sent") => {
-    setInvoices(invoices.map(inv => 
-      inv.id === invoiceId ? { ...inv, status: newStatus } : inv
-    ));
-    
+  const handleChangeStatus = (
+    invoiceId: number,
+    newStatus: "paid" | "sent"
+  ) => {
+    setInvoices(
+      invoices.map((inv) =>
+        inv.id === invoiceId ? { ...inv, status: newStatus } : inv
+      )
+    );
+
     const statusText = newStatus === "paid" ? "paid" : "unpaid";
     toast({
       title: "Success",
-      description: `Invoice marked as ${statusText}`
+      description: `Invoice marked as ${statusText}`,
     });
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "draft": return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300";
-      case "sent": return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
-      case "paid": return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
-      case "overdue": return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
-      default: return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300";
+      case "draft":
+        return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300";
+      case "sent":
+        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
+      case "paid":
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
+      case "overdue":
+        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
+      default:
+        return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300";
     }
   };
 
   const getStatusButtonText = (status: string) => {
     switch (status) {
-      case "paid": return "Mark Unpaid";
-      case "sent": return "Mark Paid";
-      default: return "";
+      case "paid":
+        return "Mark Unpaid";
+      case "sent":
+        return "Mark Paid";
+      default:
+        return "";
     }
   };
 
@@ -162,13 +209,15 @@ const Invoice = () => {
     return currentStatus === "paid" ? "sent" : "paid";
   };
 
-  const filteredInvoices = invoices.filter(invoice => {
-    const matchesSearch = invoice.projectName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  const filteredInvoices = invoices.filter((invoice) => {
+    const matchesSearch =
+      invoice.projectName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       invoice.clientName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       invoice.invoiceNumber.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    const matchesStatus = statusFilter === "all" || invoice.status === statusFilter;
-    
+
+    const matchesStatus =
+      statusFilter === "all" || invoice.status === statusFilter;
+
     return matchesSearch && matchesStatus;
   });
 
@@ -177,13 +226,17 @@ const Invoice = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">Invoices</h1>
-          <p className="text-slate-600 dark:text-slate-400 mt-1">Track and manage your invoices</p>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">
+            Invoices
+          </h1>
+          <p className="text-slate-600 dark:text-slate-400 mt-1">
+            Track and manage your invoices
+          </p>
         </div>
-        
+
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-blue-600 hover:bg-blue-700">
+            <Button className="">
               <Plus className="h-4 w-4 mr-2" />
               New Invoice
             </Button>
@@ -201,7 +254,12 @@ const Invoice = () => {
                 <Input
                   id="projectName"
                   value={newInvoice.projectName}
-                  onChange={(e) => setNewInvoice({...newInvoice, projectName: e.target.value})}
+                  onChange={(e) =>
+                    setNewInvoice({
+                      ...newInvoice,
+                      projectName: e.target.value,
+                    })
+                  }
                   placeholder="Enter project name"
                 />
               </div>
@@ -210,7 +268,9 @@ const Invoice = () => {
                 <Input
                   id="clientName"
                   value={newInvoice.clientName}
-                  onChange={(e) => setNewInvoice({...newInvoice, clientName: e.target.value})}
+                  onChange={(e) =>
+                    setNewInvoice({ ...newInvoice, clientName: e.target.value })
+                  }
                   placeholder="Enter client name"
                 />
               </div>
@@ -220,7 +280,9 @@ const Invoice = () => {
                   <Input
                     id="amount"
                     value={newInvoice.amount}
-                    onChange={(e) => setNewInvoice({...newInvoice, amount: e.target.value})}
+                    onChange={(e) =>
+                      setNewInvoice({ ...newInvoice, amount: e.target.value })
+                    }
                     placeholder="$0.00"
                   />
                 </div>
@@ -230,7 +292,9 @@ const Invoice = () => {
                     id="dueDate"
                     type="date"
                     value={newInvoice.dueDate}
-                    onChange={(e) => setNewInvoice({...newInvoice, dueDate: e.target.value})}
+                    onChange={(e) =>
+                      setNewInvoice({ ...newInvoice, dueDate: e.target.value })
+                    }
                   />
                 </div>
               </div>
@@ -239,7 +303,12 @@ const Invoice = () => {
                 <Textarea
                   id="description"
                   value={newInvoice.description}
-                  onChange={(e) => setNewInvoice({...newInvoice, description: e.target.value})}
+                  onChange={(e) =>
+                    setNewInvoice({
+                      ...newInvoice,
+                      description: e.target.value,
+                    })
+                  }
                   placeholder="Enter invoice description"
                 />
               </div>
@@ -280,14 +349,19 @@ const Invoice = () => {
       {/* Invoices Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredInvoices.map((invoice) => (
-          <Card key={invoice.id} className="bg-white dark:bg-slate-800 shadow-sm hover:shadow-md transition-shadow duration-200 border-slate-200 dark:border-slate-700">
+          <Card
+            key={invoice.id}
+            className="bg-white dark:bg-slate-800 shadow-sm hover:shadow-md transition-shadow duration-200 border-slate-200 dark:border-slate-700"
+          >
             <CardHeader className="pb-3">
               <div className="flex justify-between items-start">
                 <div className="flex-1">
                   <CardTitle className="text-lg font-semibold text-slate-900 dark:text-slate-100">
                     {invoice.invoiceNumber}
                   </CardTitle>
-                  <CardDescription className="mt-1 text-slate-600 dark:text-slate-400">{invoice.projectName}</CardDescription>
+                  <CardDescription className="mt-1 text-slate-600 dark:text-slate-400">
+                    {invoice.projectName}
+                  </CardDescription>
                 </div>
                 <Badge className={`${getStatusColor(invoice.status)} text-xs`}>
                   {invoice.status}
@@ -297,19 +371,31 @@ const Invoice = () => {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-600 dark:text-slate-400">Client:</span>
-                  <span className="font-medium text-slate-900 dark:text-slate-100">{invoice.clientName}</span>
+                  <span className="text-slate-600 dark:text-slate-400">
+                    Client:
+                  </span>
+                  <span className="font-medium text-slate-900 dark:text-slate-100">
+                    {invoice.clientName}
+                  </span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-600 dark:text-slate-400">Amount:</span>
-                  <span className="font-medium text-slate-900 dark:text-slate-100">{invoice.amount}</span>
+                  <span className="text-slate-600 dark:text-slate-400">
+                    Amount:
+                  </span>
+                  <span className="font-medium text-slate-900 dark:text-slate-100">
+                    {invoice.amount}
+                  </span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-600 dark:text-slate-400">Due Date:</span>
-                  <span className="font-medium text-slate-900 dark:text-slate-100">{invoice.dueDate}</span>
+                  <span className="text-slate-600 dark:text-slate-400">
+                    Due Date:
+                  </span>
+                  <span className="font-medium text-slate-900 dark:text-slate-100">
+                    {invoice.dueDate}
+                  </span>
                 </div>
               </div>
-              
+
               <div className="flex space-x-2">
                 <Button
                   size="sm"
@@ -335,21 +421,38 @@ const Invoice = () => {
                     <AlertDialogTrigger asChild>
                       <Button
                         size="sm"
-                        className={`flex-1 ${invoice.status === "paid" ? "bg-orange-600 hover:bg-orange-700" : "bg-green-600 hover:bg-green-700"}`}
+                        className={`flex-1 ${
+                          invoice.status === "paid"
+                            ? "bg-orange-600 hover:bg-orange-700"
+                            : "bg-green-600 hover:bg-green-700"
+                        }`}
                       >
                         {getStatusButtonText(invoice.status)}
                       </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
-                        <AlertDialogTitle>Change Invoice Status</AlertDialogTitle>
+                        <AlertDialogTitle>
+                          Change Invoice Status
+                        </AlertDialogTitle>
                         <AlertDialogDescription>
-                          Are you sure you want to mark this invoice as {getNewStatus(invoice.status) === "paid" ? "paid" : "unpaid"}?
+                          Are you sure you want to mark this invoice as{" "}
+                          {getNewStatus(invoice.status) === "paid"
+                            ? "paid"
+                            : "unpaid"}
+                          ?
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={() => handleChangeStatus(invoice.id, getNewStatus(invoice.status))}>
+                        <AlertDialogAction
+                          onClick={() =>
+                            handleChangeStatus(
+                              invoice.id,
+                              getNewStatus(invoice.status)
+                            )
+                          }
+                        >
                           Confirm
                         </AlertDialogAction>
                       </AlertDialogFooter>
@@ -364,9 +467,13 @@ const Invoice = () => {
 
       {filteredInvoices.length === 0 && (
         <div className="text-center py-12">
-          <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100 mb-2">No invoices found</h3>
+          <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100 mb-2">
+            No invoices found
+          </h3>
           <p className="text-slate-600 dark:text-slate-400 mb-4">
-            {statusFilter !== "all" ? `No invoices with status "${statusFilter}" found` : "Create your first invoice to get started"}
+            {statusFilter !== "all"
+              ? `No invoices with status "${statusFilter}" found`
+              : "Create your first invoice to get started"}
           </p>
           <Button onClick={() => setIsCreateDialogOpen(true)}>
             <Plus className="h-4 w-4 mr-2" />
@@ -378,12 +485,16 @@ const Invoice = () => {
       <InvoiceGenerator
         isOpen={isPreviewDialogOpen}
         onClose={() => setIsPreviewDialogOpen(false)}
-        project={selectedInvoice ? {
-          id: selectedInvoice.id,
-          name: selectedInvoice.projectName,
-          client: selectedInvoice.clientName,
-          budget: selectedInvoice.amount
-        } : null}
+        project={
+          selectedInvoice
+            ? {
+                id: selectedInvoice.id,
+                name: selectedInvoice.projectName,
+                client: selectedInvoice.clientName,
+                budget: selectedInvoice.amount,
+              }
+            : null
+        }
       />
     </div>
   );
