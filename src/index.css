@@ -1,28 +1,29 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 60 29% 94%; /* #FEFAE0 */
+    --background: 60 29% 94%; /* #FEFAE0 - neutral base */
     --foreground: 222.2 84% 4.9%;
 
-    --card: 60 29% 94%; /* #FEFAE0 */
+    --card: 60 29% 94%; /* same as background */
     --card-foreground: 222.2 84% 4.9%;
 
-    --popover: 60 29% 94%; /* #FEFAE0 */
+    --popover: 60 29% 94%; /* same as background */
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 79 27% 69%; /* #CCD5AE */
+    --primary: 79 27% 69%; /* #CCD5AE - main brand color */
     --primary-foreground: 222.2 47.4% 11.2%;
 
     --secondary: 47 44% 88%; /* #FAEDCD */
     --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --muted: 47 44% 88%; /* #FAEDCD */
+    --muted: 47 44% 88%; /* same as secondary */
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 78 60% 90%; /* #E9EDC9 */
+    --accent: 78 60% 90%; /* #E9EDC9 - light accent */
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
@@ -30,18 +31,22 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 79 27% 69%; /* #CCD5AE */
+    --ring: 79 27% 69%; /* same as primary */
 
     --radius: 0.5rem;
 
-    --sidebar-background: 78 60% 90%; /* #E9EDC9 */
+    --sidebar-background: 78 60% 90%; /* same as accent */
     --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 79 27% 69%; /* #CCD5AE */
+    --sidebar-primary: 79 27% 69%; /* same as primary */
     --sidebar-primary-foreground: 222.2 47.4% 11.2%;
-    --sidebar-accent: 78 60% 90%; /* #E9EDC9 */
+    --sidebar-accent: 78 60% 90%; /* same as accent */
     --sidebar-accent-foreground: 222.2 47.4% 11.2%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 79 27% 69%; /* #CCD5AE */
+    --sidebar-ring: 79 27% 69%; /* same as primary */
+
+    /* Additional accent colors */
+    --accent-dark: 30 53% 64%; /* darker accent */
+    --accent-blue: 43 82% 89%; /* blue accent */
   }
 
   .dark {
@@ -54,7 +59,7 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 79 27% 69%; /* #CCD5AE */
+    --primary: 79 27% 69%; /* keep same primary in dark mode */
     --primary-foreground: 222.2 47.4% 11.2%;
 
     --secondary: 217.2 32.6% 17.5%;
@@ -72,6 +77,7 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+    
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -80,6 +86,10 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Dark mode accent colors */
+    --accent-dark: 30 53% 45%; /* darker in dark mode */
+    --accent-blue: 43 70% 70%; /* adjusted for dark mode */
   }
 }
 
