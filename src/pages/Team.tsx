@@ -296,15 +296,15 @@ const Team = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Team</h1>
-          <p className="text-slate-600 mt-1">
+          <h1 className="text-3xl font-bold text-black-900">Team</h1>
+          <p className="text-black-600 mt-1">
             Manage team members and their roles
           </p>
         </div>
 
         <Dialog open={isNewMemberOpen} onOpenChange={setIsNewMemberOpen}>
           <DialogTrigger asChild>
-            <Button className="">
+            <Button className="bg-primary text-black hover:bg-accent">
               <Plus className="h-4 w-4 mr-2" />
               Add Team Member
             </Button>
@@ -506,12 +506,12 @@ const Team = () => {
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black-400 h-4 w-4" />
           <Input
             placeholder="Search team members..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
+            className="pl-10 bg-accent"
           />
         </div>
         <Select value={departmentFilter} onValueChange={setDepartmentFilter}>
@@ -534,7 +534,7 @@ const Team = () => {
         {filteredMembers.map((member) => (
           <Card
             key={member.id}
-            className="bg-white shadow-sm hover:shadow-md transition-shadow duration-200 border-slate-200"
+            className="bg-white shadow-sm hover:shadow-md transition-shadow duration-200 border-black-200"
           >
             <CardHeader className="pb-2">
               <div className="flex items-center gap-4">
@@ -554,26 +554,26 @@ const Team = () => {
             <CardContent className="space-y-3">
               <div className="flex flex-col space-y-1 text-sm">
                 <div className="flex items-center">
-                  <Mail className="h-4 w-4 mr-2 text-slate-400" />
+                  <Mail className="h-4 w-4 mr-2 text-black-400" />
                   <span>{member.email}</span>
                 </div>
                 {member.phone !== "Not provided" && (
                   <div className="flex items-center">
-                    <Phone className="h-4 w-4 mr-2 text-slate-400" />
+                    <Phone className="h-4 w-4 mr-2 text-black-400" />
                     <span>{member.phone}</span>
                   </div>
                 )}
                 <div className="flex items-center">
-                  <Users className="h-4 w-4 mr-2 text-slate-400" />
+                  <Users className="h-4 w-4 mr-2 text-black-400" />
                   <span>{member.department}</span>
                 </div>
               </div>
 
-              <p className="text-sm text-slate-600">{member.bio}</p>
+              <p className="text-sm text-black-600">{member.bio}</p>
 
               {member.projects.length > 0 && (
                 <div>
-                  <h4 className="text-xs font-medium text-slate-500 mb-2">
+                  <h4 className="text-xs font-medium text-black-500 mb-2">
                     PROJECTS
                   </h4>
                   <div className="flex flex-wrap gap-1">
@@ -581,7 +581,7 @@ const Team = () => {
                       <Badge
                         key={idx}
                         variant="secondary"
-                        className="bg-slate-100 text-slate-700 text-xs"
+                        className="bg-primary hover:bg-accent dark:bg-accent-light text-black dark:text-black text-xs"
                       >
                         {project}
                       </Badge>
@@ -606,14 +606,14 @@ const Team = () => {
       </div>
 
       {filteredMembers.length === 0 && (
-        <div className="text-center py-12 bg-white rounded-lg border border-slate-200">
-          <div className="text-slate-400 mb-4">
+        <div className="text-center py-12 bg-white rounded-lg border border-black-200">
+          <div className="text-black-400 mb-4">
             <Users className="h-12 w-12 mx-auto" />
           </div>
-          <h3 className="text-lg font-medium text-slate-900 mb-2">
+          <h3 className="text-lg font-medium text-black-900 mb-2">
             No team members found
           </h3>
-          <p className="text-slate-600">Try adjusting your search or filters</p>
+          <p className="text-black-600">Try adjusting your search or filters</p>
         </div>
       )}
     </div>

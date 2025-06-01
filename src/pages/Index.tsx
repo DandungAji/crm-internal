@@ -30,20 +30,25 @@ const Index = () => {
       title: "Active Projects",
       value: "12",
       icon: TrendingUp,
-      color: "bg-blue-500",
+      color: "bg-primary",
     },
     {
       title: "Tasks Due Today",
       value: "8",
       icon: Clock,
-      color: "bg-orange-500",
+      color: "bg-accent-light",
     },
-    { title: "Team Members", value: "24", icon: Users, color: "bg-green-500" },
+    {
+      title: "Team Members",
+      value: "24",
+      icon: Users,
+      color: "bg-accent-dark",
+    },
     {
       title: "Completed This Week",
       value: "42",
       icon: CalendarDays,
-      color: "bg-purple-500",
+      color: "bg-accent-darker",
     },
   ];
 
@@ -102,15 +107,15 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-gradient-to-br from-black-50 to-black-100">
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-slate-900 mb-2">
+          <h2 className="text-3xl font-bold text-black-900 mb-2">
             Welcome back!
           </h2>
-          <p className="text-slate-600">
+          <p className="text-black-600">
             Here's what's happening with your projects today.
           </p>
         </div>
@@ -122,18 +127,18 @@ const Index = () => {
             return (
               <Card
                 key={index}
-                className="bg-white shadow-sm hover:shadow-md transition-shadow duration-200 border-slate-200"
+                className="bg-white shadow-sm hover:shadow-md transition-shadow duration-200 border-black-200"
               >
                 <CardContent className="p-6">
                   <div className="flex items-center">
                     <div className={`${stat.color} p-3 rounded-lg mr-4`}>
-                      <IconComponent className="h-6 w-6 text-white" />
+                      <IconComponent className="h-6 w-6 text-black" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-slate-600 uppercase tracking-wide">
+                      <p className="text-sm font-medium text-black-600 uppercase tracking-wide">
                         {stat.title}
                       </p>
-                      <p className="text-2xl font-bold text-slate-900">
+                      <p className="text-2xl font-bold text-black-900">
                         {stat.value}
                       </p>
                     </div>
@@ -147,9 +152,9 @@ const Index = () => {
         {/* Recent Projects */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <Card className="bg-white shadow-sm border-slate-200">
+            <Card className="bg-white shadow-sm border-black-200">
               <CardHeader className="pb-4">
-                <CardTitle className="text-xl font-semibold text-slate-900">
+                <CardTitle className="text-xl font-semibold text-black-900">
                   Recent Projects
                 </CardTitle>
                 <CardDescription>
@@ -161,12 +166,12 @@ const Index = () => {
                   {recentProjects.map((project) => (
                     <div
                       key={project.id}
-                      className="flex items-center justify-between p-4 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
+                      className="flex items-center justify-between p-4 bg-black-50 rounded-lg hover:bg-black-100 transition-colors cursor-pointer"
                       onClick={() => navigate(`/projects/${project.id}`)}
                     >
                       <div className="flex-1">
                         <div className="flex items-center justify-between mb-2">
-                          <h3 className="font-medium text-slate-900">
+                          <h3 className="font-medium text-black-900">
                             {project.name}
                           </h3>
                           <Badge
@@ -177,16 +182,16 @@ const Index = () => {
                             {project.status}
                           </Badge>
                         </div>
-                        <div className="flex items-center space-x-4 text-sm text-slate-600">
+                        <div className="flex items-center space-x-4 text-sm text-black-600">
                           <span>Due: {project.dueDate}</span>
                           <span>{project.team} team members</span>
                         </div>
                         <div className="mt-3">
                           <div className="flex items-center justify-between mb-1">
-                            <span className="text-xs text-slate-500">
+                            <span className="text-xs text-black-500">
                               Progress
                             </span>
-                            <span className="text-xs text-slate-700 font-medium">
+                            <span className="text-xs text-black-700 font-medium">
                               {project.progress}%
                             </span>
                           </div>
@@ -202,9 +207,9 @@ const Index = () => {
 
           {/* Quick Actions */}
           <div className="space-y-6">
-            <Card className="bg-white shadow-sm border-slate-200">
+            <Card className="bg-white shadow-sm border-black-200">
               <CardHeader className="pb-4">
-                <CardTitle className="text-lg font-semibold text-slate-900">
+                <CardTitle className="text-lg font-semibold text-black-900">
                   Quick Actions
                 </CardTitle>
               </CardHeader>
@@ -239,16 +244,18 @@ const Index = () => {
               </CardContent>
             </Card>
 
-            <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
+            <Card className="bg-accent dark:bg-accent-darker/80 border-primary dark:border-accent-light">
               <CardContent className="p-6">
-                <h3 className="font-semibold text-blue-900 mb-2">Need Help?</h3>
-                <p className="text-sm text-blue-700 mb-4">
+                <h3 className="font-semibold text-foreground mb-2">
+                  Need Help?
+                </h3>
+                <p className="text-sm text-foreground mb-4">
                   Explore our features and boost your productivity.
                 </p>
                 <Button
                   size="sm"
                   variant="outline"
-                  className="border-blue-300 text-blue-700 hover:bg-blue-200"
+                  className="border-primary dark:border-accent-light dark:bg-sidebar text-accent-darker hover:text-accent-darker hover:bg-accent dark:hover:bg-sidebar/80"
                   onClick={() => navigate("/guide")}
                 >
                   Learn More

@@ -67,8 +67,8 @@ export function AppSidebar() {
 
   const getNavClass = (path: string) => {
     return isActive(path)
-      ? "bg-primary dark:bg-blue-900 text-slate-900 dark:text-blue-100 border-r-2 border-slate-900 font-medium"
-      : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-slate-100";
+      ? "bg-primary dark:bg-accent-darker text-black dark:text-foreground border-r-2 border-black dark:border-accent-light font-medium"
+      : "text-black/60 dark:text-foreground/60 hover:bg-primary/60 dark:hover:bg-accent-darker/60 hover:text-black/90 dark:hover:text-foreground/90";
   };
 
   const handleLogout = () => {
@@ -79,27 +79,27 @@ export function AppSidebar() {
     <Sidebar
       className={`${
         collapsed ? "w-16" : "w-64"
-      } border-r border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800`}
+      } border-r border-black/20 dark:border-black/70 bg-white dark:bg-black/80`}
     >
       <SidebarContent className="p-4 flex flex-col h-full">
         {/* User Info Header */}
         {!collapsed && (
           <SidebarHeader className="mb-4">
-            <div className="flex items-center space-x-3 p-3 rounded-lg bg-primary dark:bg-slate-700">
+            <div className="flex items-center space-x-3 p-3 rounded-lg bg-primary dark:bg-accent-darker">
               <Avatar className="h-10 w-10">
                 <AvatarImage
                   src="https://github.com/shadcn.png"
                   alt={user?.name || "User"}
                 />
-                <AvatarFallback className="bg-blue-100 dark:bg-blue-900 text-blue-900 dark:text-blue-100">
+                <AvatarFallback className="bg-accent-darker/10 dark:bg-accent-darker/90 text-accent-darker/90 dark:text-accent-darker/10">
                   {user?.name?.charAt(0) || "U"}
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
-                <div className="font-medium text-sm text-slate-900 dark:text-slate-100 truncate">
+                <div className="font-medium text-sm text-black-900 dark:text-black-100 truncate">
                   {user?.name || "John Doe"}
                 </div>
-                <div className="text-xs text-slate-700 dark:text-slate-400 truncate">
+                <div className="text-xs text-black-700 dark:text-black-400 truncate">
                   {user?.email || "john.doe@example.com"}
                 </div>
               </div>
@@ -112,7 +112,7 @@ export function AppSidebar() {
           <SidebarGroupLabel
             className={`${
               collapsed ? "hidden" : "block"
-            } text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2`}
+            } text-xs font-semibold text-black-500 dark:text-black-400 uppercase tracking-wider mb-2`}
           >
             Main
           </SidebarGroupLabel>
@@ -166,7 +166,7 @@ export function AppSidebar() {
                     <AlertDialogTrigger asChild>
                       <Button
                         variant="ghost"
-                        className="w-full flex items-center justify-start p-3 text-red-600 bg-red-100 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-700 dark:hover:text-red-400"
+                        className="w-full flex items-center justify-start p-3 text-red-600 bg-red-100 hover:bg-red-200 dark:bg-red-900/20 hover:dark:bg-red-900/40 hover:text-red-700 dark:text-red-400"
                       >
                         <LogOut className="h-5 w-5 flex-shrink-0" />
                         {!collapsed && (
@@ -174,7 +174,7 @@ export function AppSidebar() {
                         )}
                       </Button>
                     </AlertDialogTrigger>
-                    <AlertDialogContent className="bg-white dark:bg-slate-800">
+                    <AlertDialogContent className="bg-white dark:bg-black-800">
                       <AlertDialogHeader>
                         <AlertDialogTitle>Confirm Logout</AlertDialogTitle>
                         <AlertDialogDescription>

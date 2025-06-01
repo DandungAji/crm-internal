@@ -1,6 +1,10 @@
-
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,17 +27,25 @@ type InvoiceGeneratorProps = {
   project: Project | null;
 };
 
-const InvoiceGenerator = ({ isOpen, onClose, project }: InvoiceGeneratorProps) => {
+const InvoiceGenerator = ({
+  isOpen,
+  onClose,
+  project,
+}: InvoiceGeneratorProps) => {
   const [invoiceData, setInvoiceData] = useState({
-    invoiceNumber: `INV-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`,
-    invoiceDate: new Date().toISOString().split('T')[0],
-    dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    invoiceNumber: `INV-${new Date().getFullYear()}-${String(Date.now()).slice(
+      -6
+    )}`,
+    invoiceDate: new Date().toISOString().split("T")[0],
+    dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .split("T")[0],
     clientName: project?.client || "",
     clientAddress: "Client Address\nCity, State ZIP\nCountry",
     projectDescription: project?.name || "",
-    amount: project?.budget?.replace('$', '').replace(',', '') || "0",
+    amount: project?.budget?.replace("$", "").replace(",", "") || "0",
     tax: "10",
-    notes: "Thank you for your business!"
+    notes: "Thank you for your business!",
   });
 
   const calculateTotal = () => {
@@ -65,15 +77,18 @@ ${invoiceData.clientAddress}
 
 Description: ${invoiceData.projectDescription}
 Amount: $${invoiceData.amount}
-Tax (${invoiceData.tax}%): $${((parseFloat(invoiceData.amount) * parseFloat(invoiceData.tax)) / 100).toFixed(2)}
+Tax (${invoiceData.tax}%): $${(
+      (parseFloat(invoiceData.amount) * parseFloat(invoiceData.tax)) /
+      100
+    ).toFixed(2)}
 Total: $${calculateTotal().toFixed(2)}
 
 Notes: ${invoiceData.notes}
     `;
 
-    const blob = new Blob([invoiceContent], { type: 'text/plain' });
+    const blob = new Blob([invoiceContent], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
     a.download = `invoice-${invoiceData.invoiceNumber}.txt`;
     document.body.appendChild(a);
@@ -93,7 +108,7 @@ Notes: ${invoiceData.notes}
         <DialogHeader>
           <DialogTitle>Generate Invoice - {project?.name}</DialogTitle>
         </DialogHeader>
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Invoice Form */}
           <div className="space-y-4">
@@ -103,7 +118,12 @@ Notes: ${invoiceData.notes}
                 <Input
                   id="invoiceNumber"
                   value={invoiceData.invoiceNumber}
-                  onChange={(e) => setInvoiceData({...invoiceData, invoiceNumber: e.target.value})}
+                  onChange={(e) =>
+                    setInvoiceData({
+                      ...invoiceData,
+                      invoiceNumber: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div>
@@ -112,7 +132,12 @@ Notes: ${invoiceData.notes}
                   id="invoiceDate"
                   type="date"
                   value={invoiceData.invoiceDate}
-                  onChange={(e) => setInvoiceData({...invoiceData, invoiceDate: e.target.value})}
+                  onChange={(e) =>
+                    setInvoiceData({
+                      ...invoiceData,
+                      invoiceDate: e.target.value,
+                    })
+                  }
                 />
               </div>
             </div>
@@ -123,7 +148,9 @@ Notes: ${invoiceData.notes}
                 id="dueDate"
                 type="date"
                 value={invoiceData.dueDate}
-                onChange={(e) => setInvoiceData({...invoiceData, dueDate: e.target.value})}
+                onChange={(e) =>
+                  setInvoiceData({ ...invoiceData, dueDate: e.target.value })
+                }
               />
             </div>
 
@@ -132,7 +159,9 @@ Notes: ${invoiceData.notes}
               <Input
                 id="clientName"
                 value={invoiceData.clientName}
-                onChange={(e) => setInvoiceData({...invoiceData, clientName: e.target.value})}
+                onChange={(e) =>
+                  setInvoiceData({ ...invoiceData, clientName: e.target.value })
+                }
               />
             </div>
 
@@ -141,7 +170,12 @@ Notes: ${invoiceData.notes}
               <Textarea
                 id="clientAddress"
                 value={invoiceData.clientAddress}
-                onChange={(e) => setInvoiceData({...invoiceData, clientAddress: e.target.value})}
+                onChange={(e) =>
+                  setInvoiceData({
+                    ...invoiceData,
+                    clientAddress: e.target.value,
+                  })
+                }
                 rows={3}
               />
             </div>
@@ -151,7 +185,12 @@ Notes: ${invoiceData.notes}
               <Textarea
                 id="projectDescription"
                 value={invoiceData.projectDescription}
-                onChange={(e) => setInvoiceData({...invoiceData, projectDescription: e.target.value})}
+                onChange={(e) =>
+                  setInvoiceData({
+                    ...invoiceData,
+                    projectDescription: e.target.value,
+                  })
+                }
                 rows={2}
               />
             </div>
@@ -163,7 +202,9 @@ Notes: ${invoiceData.notes}
                   id="amount"
                   type="number"
                   value={invoiceData.amount}
-                  onChange={(e) => setInvoiceData({...invoiceData, amount: e.target.value})}
+                  onChange={(e) =>
+                    setInvoiceData({ ...invoiceData, amount: e.target.value })
+                  }
                 />
               </div>
               <div>
@@ -172,7 +213,9 @@ Notes: ${invoiceData.notes}
                   id="tax"
                   type="number"
                   value={invoiceData.tax}
-                  onChange={(e) => setInvoiceData({...invoiceData, tax: e.target.value})}
+                  onChange={(e) =>
+                    setInvoiceData({ ...invoiceData, tax: e.target.value })
+                  }
                 />
               </div>
             </div>
@@ -182,7 +225,9 @@ Notes: ${invoiceData.notes}
               <Textarea
                 id="notes"
                 value={invoiceData.notes}
-                onChange={(e) => setInvoiceData({...invoiceData, notes: e.target.value})}
+                onChange={(e) =>
+                  setInvoiceData({ ...invoiceData, notes: e.target.value })
+                }
                 rows={3}
               />
             </div>
@@ -197,13 +242,19 @@ Notes: ${invoiceData.notes}
               <CardContent className="space-y-4">
                 <div className="text-center">
                   <h2 className="text-2xl font-bold">INVOICE</h2>
-                  <p className="text-sm text-slate-600">#{invoiceData.invoiceNumber}</p>
+                  <p className="text-sm text-black-600">
+                    #{invoiceData.invoiceNumber}
+                  </p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <p><strong>Date:</strong> {invoiceData.invoiceDate}</p>
-                    <p><strong>Due:</strong> {invoiceData.dueDate}</p>
+                    <p>
+                      <strong>Date:</strong> {invoiceData.invoiceDate}
+                    </p>
+                    <p>
+                      <strong>Due:</strong> {invoiceData.dueDate}
+                    </p>
                   </div>
                 </div>
 
@@ -211,9 +262,10 @@ Notes: ${invoiceData.notes}
 
                 <div>
                   <p className="font-semibold">Bill To:</p>
-                  <div className="text-sm text-slate-600 whitespace-pre-line">
+                  <div className="text-sm text-black-600 whitespace-pre-line">
                     {invoiceData.clientName}
-                    {'\n'}{invoiceData.clientAddress}
+                    {"\n"}
+                    {invoiceData.clientAddress}
                   </div>
                 </div>
 
@@ -221,7 +273,9 @@ Notes: ${invoiceData.notes}
 
                 <div>
                   <p className="font-semibold">Description:</p>
-                  <p className="text-sm text-slate-600">{invoiceData.projectDescription}</p>
+                  <p className="text-sm text-black-600">
+                    {invoiceData.projectDescription}
+                  </p>
                 </div>
 
                 <Separator />
@@ -233,7 +287,14 @@ Notes: ${invoiceData.notes}
                   </div>
                   <div className="flex justify-between">
                     <span>Tax ({invoiceData.tax}%):</span>
-                    <span>${((parseFloat(invoiceData.amount) * parseFloat(invoiceData.tax)) / 100).toFixed(2)}</span>
+                    <span>
+                      $
+                      {(
+                        (parseFloat(invoiceData.amount) *
+                          parseFloat(invoiceData.tax)) /
+                        100
+                      ).toFixed(2)}
+                    </span>
                   </div>
                   <Separator />
                   <div className="flex justify-between font-bold">
@@ -247,7 +308,9 @@ Notes: ${invoiceData.notes}
                     <Separator />
                     <div>
                       <p className="font-semibold">Notes:</p>
-                      <p className="text-sm text-slate-600">{invoiceData.notes}</p>
+                      <p className="text-sm text-black-600">
+                        {invoiceData.notes}
+                      </p>
                     </div>
                   </>
                 )}
@@ -261,7 +324,10 @@ Notes: ${invoiceData.notes}
             <Eye className="h-4 w-4 mr-2" />
             Preview
           </Button>
-          <Button onClick={handleDownload} className="bg-blue-600 hover:bg-blue-700">
+          <Button
+            onClick={handleDownload}
+            className="bg-blue-600 hover:bg-blue-700"
+          >
             <Download className="h-4 w-4 mr-2" />
             Download PDF
           </Button>

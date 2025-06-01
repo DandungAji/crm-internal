@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,25 +5,25 @@
 @layer base {
   :root {
     --background: 60 29% 94%; /* #FEFAE0 - neutral base */
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 0, 0%, 11%;
 
     --card: 60 29% 94%; /* same as background */
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 0, 0%, 11%;
 
     --popover: 60 29% 94%; /* same as background */
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 0, 0%, 11%;
 
     --primary: 79 27% 69%; /* #CCD5AE - main brand color */
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary-foreground: 0, 0%, 16%;
 
     --secondary: 47 44% 88%; /* #FAEDCD */
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary-foreground: 0, 0%, 16%;
 
     --muted: 47 44% 88%; /* same as secondary */
     --muted-foreground: 215.4 16.3% 46.9%;
 
     --accent: 78 60% 90%; /* #E9EDC9 - light accent */
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent-foreground: 0, 0%, 16%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
@@ -38,29 +37,30 @@
     --sidebar-background: 78 60% 90%; /* same as accent */
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 79 27% 69%; /* same as primary */
-    --sidebar-primary-foreground: 222.2 47.4% 11.2%;
+    --sidebar-primary-foreground: 0, 0%, 16%;
     --sidebar-accent: 78 60% 90%; /* same as accent */
-    --sidebar-accent-foreground: 222.2 47.4% 11.2%;
+    --sidebar-accent-foreground: 0, 0%, 16%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 79 27% 69%; /* same as primary */
 
     /* Additional accent colors */
+    --accent-darker: 30 53% 45%; /* darkest accent */
     --accent-dark: 30 53% 64%; /* darker accent */
-    --accent-blue: 43 82% 89%; /* blue accent */
+    --accent-light: 43 82% 89%; /* light accent */
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 0, 0%, 11%;
     --foreground: 210 40% 98%;
 
-    --card: 222.2 84% 4.9%;
+    --card: 0, 0%, 11%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222.2 84% 4.9%;
+    --popover: 0, 0%, 11%;
     --popover-foreground: 210 40% 98%;
 
     --primary: 79 27% 69%; /* keep same primary in dark mode */
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary-foreground: 0, 0%, 16%;
 
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
@@ -77,8 +77,8 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
-    
-    --sidebar-background: 240 5.9% 10%;
+
+    --sidebar-background: 100 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
     --sidebar-primary-foreground: 0 0% 100%;
@@ -89,7 +89,7 @@
 
     /* Dark mode accent colors */
     --accent-dark: 30 53% 45%; /* darker in dark mode */
-    --accent-blue: 43 70% 70%; /* adjusted for dark mode */
+    --accent-light: 43 70% 70%; /* adjusted for dark mode */
   }
 }
 
@@ -114,7 +114,7 @@
 
   /* Optimize dark mode appearance */
   .dark body {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    background: hsl(50 5.9% 10%);
   }
 
   .dark .card {

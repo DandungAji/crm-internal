@@ -45,21 +45,21 @@ export function Layout() {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
+      <div className="min-h-screen flex w-full bg-gradient-to-br from-black-50 to-black-100 dark:from-black-900 dark:to-black-800">
         <AppSidebar />
 
         <div className="flex-1 flex flex-col">
           {/* Header - Made sticky */}
-          <header className="sticky top-0 z-50 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md shadow-sm border-b border-slate-200 dark:border-slate-700 h-16 flex items-center px-6">
+          <header className="sticky top-0 z-50 bg-white/80 dark:bg-sidebar/90 backdrop-blur-md shadow-sm border-b border-black-200 dark:border-black-700 h-16 flex items-center px-6">
             <SidebarTrigger className="mr-4" />
 
             <div className="flex items-center space-x-4 mr-8">
-              <h1 className="text-xl font-bold text-slate-900 dark:text-slate-100">
+              <h1 className="text-xl font-bold text-black-900 dark:text-black-100">
                 ProjectFlow
               </h1>
               <Badge
                 variant="secondary"
-                className="bg-accent hover:bg-accent text-slate-800 dark:bg-primary dark:text-slate-800 text-xs"
+                className="bg-accent hover:bg-accent text-black-800 dark:bg-accent-darker/80 dark:text-foreground/80 text-xs"
               >
                 Internal CRM
               </Badge>
@@ -68,12 +68,12 @@ export function Layout() {
             {/* Search Bar */}
             <div className="flex-1 max-w-md">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black-400 h-4 w-4" />
                 <Input
                   placeholder="Search projects, tasks..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600 focus:border-primary-500"
+                  className="pl-10 bg-accent dark:bg-accent-darker/80 border-accent focus:border-primary-500 dark:focus:border-accent-darker/80"
                 />
               </div>
             </div>
@@ -111,7 +111,7 @@ export function Layout() {
                     <DropdownMenuItem key={notification.id} className="py-2">
                       <div className="flex flex-col">
                         <span>{notification.text}</span>
-                        <span className="text-xs text-slate-500 dark:text-slate-400">
+                        <span className="text-xs text-black-500 dark:text-black-400">
                           {notification.time}
                         </span>
                       </div>
@@ -126,7 +126,7 @@ export function Layout() {
 
               <Button
                 size="sm"
-                className="bg-primary text-slate-900 hover:bg-accent"
+                className="bg-primary text-black-900 hover:bg-accent"
                 onClick={handleNewProject}
               >
                 <Plus className="h-4 w-4 mr-2" />

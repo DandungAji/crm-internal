@@ -1,12 +1,23 @@
-
 import { useState } from "react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Plus, X, UserPlus } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
@@ -25,12 +36,32 @@ type ProjectTeamManagerProps = {
   initialTeamMembers?: string[];
 };
 
-const ProjectTeamManager = ({ isOpen, onClose, projectName, initialTeamMembers = [] }: ProjectTeamManagerProps) => {
+const ProjectTeamManager = ({
+  isOpen,
+  onClose,
+  projectName,
+  initialTeamMembers = [],
+}: ProjectTeamManagerProps) => {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([
-    { id: 1, name: "Alice Johnson", email: "alice@company.com", role: "Project Manager" },
+    {
+      id: 1,
+      name: "Alice Johnson",
+      email: "alice@company.com",
+      role: "Project Manager",
+    },
     { id: 2, name: "Bob Smith", email: "bob@company.com", role: "Developer" },
-    { id: 3, name: "Charlie Brown", email: "charlie@company.com", role: "Designer" },
-    { id: 4, name: "Diana Prince", email: "diana@company.com", role: "QA Tester" },
+    {
+      id: 3,
+      name: "Charlie Brown",
+      email: "charlie@company.com",
+      role: "Designer",
+    },
+    {
+      id: 4,
+      name: "Diana Prince",
+      email: "diana@company.com",
+      role: "QA Tester",
+    },
   ]);
 
   const [selectedMembers, setSelectedMembers] = useState<number[]>([1, 2]);
@@ -42,16 +73,16 @@ const ProjectTeamManager = ({ isOpen, onClose, projectName, initialTeamMembers =
       toast({
         title: "Error",
         description: "Please fill in all fields",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
 
     const newMember: TeamMember = {
       id: teamMembers.length + 1,
-      name: newMemberEmail.split('@')[0],
+      name: newMemberEmail.split("@")[0],
       email: newMemberEmail,
-      role: newMemberRole
+      role: newMemberRole,
     };
 
     setTeamMembers([...teamMembers, newMember]);
@@ -59,14 +90,14 @@ const ProjectTeamManager = ({ isOpen, onClose, projectName, initialTeamMembers =
     setNewMemberRole("");
     toast({
       title: "Success",
-      description: "Team member added successfully"
+      description: "Team member added successfully",
     });
   };
 
   const handleToggleMember = (memberId: number) => {
-    setSelectedMembers(prev => 
-      prev.includes(memberId) 
-        ? prev.filter(id => id !== memberId)
+    setSelectedMembers((prev) =>
+      prev.includes(memberId)
+        ? prev.filter((id) => id !== memberId)
         : [...prev, memberId]
     );
   };
@@ -74,7 +105,7 @@ const ProjectTeamManager = ({ isOpen, onClose, projectName, initialTeamMembers =
   const handleSave = () => {
     toast({
       title: "Success",
-      description: "Team assignments updated successfully"
+      description: "Team assignments updated successfully",
     });
     onClose();
   };
@@ -88,10 +119,10 @@ const ProjectTeamManager = ({ isOpen, onClose, projectName, initialTeamMembers =
             Add or remove team members from this project
           </DialogDescription>
         </DialogHeader>
-        
+
         <div className="space-y-6">
           {/* Add New Member */}
-          <div className="border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+          <div className="border border-black-200 dark:border-black-700 rounded-lg p-4">
             <h3 className="font-semibold mb-3 flex items-center">
               <UserPlus className="h-4 w-4 mr-2" />
               Add New Member
@@ -114,11 +145,15 @@ const ProjectTeamManager = ({ isOpen, onClose, projectName, initialTeamMembers =
                     <SelectValue placeholder="Select role" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Project Manager">Project Manager</SelectItem>
+                    <SelectItem value="Project Manager">
+                      Project Manager
+                    </SelectItem>
                     <SelectItem value="Developer">Developer</SelectItem>
                     <SelectItem value="Designer">Designer</SelectItem>
                     <SelectItem value="QA Tester">QA Tester</SelectItem>
-                    <SelectItem value="Business Analyst">Business Analyst</SelectItem>
+                    <SelectItem value="Business Analyst">
+                      Business Analyst
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -141,7 +176,7 @@ const ProjectTeamManager = ({ isOpen, onClose, projectName, initialTeamMembers =
                   className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors ${
                     selectedMembers.includes(member.id)
                       ? "border-blue-500 bg-blue-50 dark:bg-blue-950"
-                      : "border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800"
+                      : "border-black-200 dark:border-black-700 hover:bg-black-50 dark:hover:bg-black-800"
                   }`}
                   onClick={() => handleToggleMember(member.id)}
                 >
@@ -152,7 +187,9 @@ const ProjectTeamManager = ({ isOpen, onClose, projectName, initialTeamMembers =
                     </Avatar>
                     <div>
                       <div className="font-medium text-sm">{member.name}</div>
-                      <div className="text-xs text-slate-500">{member.email}</div>
+                      <div className="text-xs text-black-500">
+                        {member.email}
+                      </div>
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
@@ -160,7 +197,9 @@ const ProjectTeamManager = ({ isOpen, onClose, projectName, initialTeamMembers =
                       {member.role}
                     </Badge>
                     {selectedMembers.includes(member.id) && (
-                      <Badge className="bg-blue-600 text-white text-xs">Assigned</Badge>
+                      <Badge className="bg-blue-600 text-white text-xs">
+                        Assigned
+                      </Badge>
                     )}
                   </div>
                 </div>
@@ -173,9 +212,7 @@ const ProjectTeamManager = ({ isOpen, onClose, projectName, initialTeamMembers =
             <Button variant="outline" onClick={onClose}>
               Cancel
             </Button>
-            <Button onClick={handleSave}>
-              Save Changes
-            </Button>
+            <Button onClick={handleSave}>Save Changes</Button>
           </div>
         </div>
       </DialogContent>

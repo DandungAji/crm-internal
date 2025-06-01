@@ -128,7 +128,7 @@ const ProjectDetail = () => {
     return (
       <div className="flex flex-col items-center justify-center h-[80vh]">
         <h2 className="text-2xl font-bold mb-2">Project Not Found</h2>
-        <p className="text-slate-600 mb-4">
+        <p className="text-black-600 mb-4">
           The project you're looking for doesn't exist or has been deleted.
         </p>
         <Button onClick={() => navigate("/projects")}>
@@ -182,7 +182,7 @@ const ProjectDetail = () => {
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Projects
           </Button>
-          <h1 className="text-2xl font-bold text-slate-900">{project.name}</h1>
+          <h1 className="text-2xl font-bold text-black-900">{project.name}</h1>
         </div>
         <div className="flex items-center space-x-2">
           <Button variant="outline" size="sm" onClick={() => navigate("/team")}>
@@ -221,7 +221,7 @@ const ProjectDetail = () => {
       {/* Project Description */}
       <Card>
         <CardContent className="p-4">
-          <p className="text-slate-600">{project.description}</p>
+          <p className="text-black-600">{project.description}</p>
         </CardContent>
       </Card>
 
@@ -327,12 +327,12 @@ const ProjectDetail = () => {
                             className={`font-medium ${
                               isCompleted
                                 ? "line-through text-gray-500"
-                                : "text-slate-900"
+                                : "text-black-900"
                             }`}
                           >
                             Example Task {index + 1}
                           </h4>
-                          <p className="text-sm text-slate-500">
+                          <p className="text-sm text-black-500">
                             Due in {Math.floor(Math.random() * 10) + 1} days
                           </p>
                         </div>
@@ -375,10 +375,10 @@ const ProjectDetail = () => {
                     <div className="flex items-center">
                       <FileText className="h-5 w-5 mr-3 text-blue-500" />
                       <div>
-                        <h4 className="font-medium text-slate-900">
+                        <h4 className="font-medium text-black-900">
                           Project Document {index}
                         </h4>
-                        <p className="text-sm text-slate-500">
+                        <p className="text-sm text-black-500">
                           Added {index * 2} days ago
                         </p>
                       </div>
@@ -420,19 +420,19 @@ const ProjectDetail = () => {
                         ].charAt(0)}
                       </div>
                       <div>
-                        <h4 className="font-medium text-slate-900">
+                        <h4 className="font-medium text-black-900">
                           {
                             project.teamMembers[
                               index % project.teamMembers.length
                             ]
                           }
                         </h4>
-                        <p className="text-xs text-slate-500">
+                        <p className="text-xs text-black-500">
                           {index} days ago
                         </p>
                       </div>
                     </div>
-                    <p className="text-slate-700">
+                    <p className="text-black-700">
                       This is a sample discussion message about the project. It
                       could include updates, questions, or important information
                       for the team.

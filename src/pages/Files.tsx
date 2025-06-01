@@ -241,7 +241,7 @@ const Files = () => {
       case "image":
         return <FileImage className="h-6 w-6 text-purple-500" />;
       default:
-        return <FileIcon className="h-6 w-6 text-slate-500" />;
+        return <FileIcon className="h-6 w-6 text-black-500" />;
     }
   };
 
@@ -284,15 +284,15 @@ const Files = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Files</h1>
-          <p className="text-slate-600 mt-1">
+          <h1 className="text-3xl font-bold text-black-900">Files</h1>
+          <p className="text-black-600 mt-1">
             Manage and access your project files
           </p>
         </div>
 
         <Dialog open={isUploadOpen} onOpenChange={setIsUploadOpen}>
           <DialogTrigger asChild>
-            <Button className="">
+            <Button className="bg-primary text-black hover:bg-accent">
               <Plus className="h-4 w-4 mr-2" />
               Upload Files
             </Button>
@@ -302,9 +302,9 @@ const Files = () => {
               <DialogTitle>Upload Files</DialogTitle>
             </DialogHeader>
             <div className="grid gap-4 py-4">
-              <div className="border-2 border-dashed border-slate-300 rounded-lg p-8 text-center">
-                <FileIcon className="h-10 w-10 text-slate-400 mx-auto mb-4" />
-                <p className="text-sm text-slate-600 mb-4">
+              <div className="border-2 border-dashed border-black-300 rounded-lg p-8 text-center">
+                <FileIcon className="h-10 w-10 text-black-400 mx-auto mb-4" />
+                <p className="text-sm text-black-600 mb-4">
                   Drag and drop files here, or click to browse
                 </p>
                 <Input
@@ -334,12 +334,12 @@ const Files = () => {
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black-400 h-4 w-4" />
           <Input
             placeholder="Search files..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
+            className="pl-10 bg-accent"
           />
         </div>
         <div className="flex gap-2">
@@ -397,7 +397,7 @@ const Files = () => {
                         {getFileIcon(file.type)}
                         <span>{file.name}</span>
                       </div>
-                      <div className="text-xs text-slate-500 mt-1 flex items-center">
+                      <div className="text-xs text-black-500 mt-1 flex items-center">
                         <FolderOpen className="h-3 w-3 mr-1" />
                         {file.path.split("/").map((segment, index, array) => (
                           <span key={index} className="flex items-center">
@@ -410,7 +410,10 @@ const Files = () => {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline" className="text-xs font-normal">
+                      <Badge
+                        variant="outline"
+                        className="text-xs font-normal bg-primary dark:bg-accent-dark"
+                      >
                         {file.project}
                       </Badge>
                     </TableCell>
@@ -463,8 +466,8 @@ const Files = () => {
                   <TableRow>
                     <TableCell colSpan={6} className="h-24 text-center">
                       <div className="flex flex-col items-center justify-center">
-                        <FileIcon className="h-8 w-8 text-slate-300 mb-2" />
-                        <p className="text-sm text-slate-500">No files found</p>
+                        <FileIcon className="h-8 w-8 text-black-300 mb-2" />
+                        <p className="text-sm text-black-500">No files found</p>
                       </div>
                     </TableCell>
                   </TableRow>

@@ -44,6 +44,7 @@ import {
   CalendarIcon,
   UserIcon,
   TagIcon,
+  StickyNote,
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
@@ -328,15 +329,15 @@ const Tasks = () => {
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case "Critical":
-        return "bg-red-100 text-red-800 border-red-200";
+        return "bg-red-100 hover:bg-red-100/60 text-red-800 border-red-200";
       case "High":
-        return "bg-orange-100 text-orange-800 border-orange-200";
+        return "bg-orange-100 hover:bg-orange-100/60 text-orange-800 border-orange-200";
       case "Medium":
-        return "bg-blue-100 text-blue-800 border-blue-200";
+        return "bg-blue-100 hover:bg-blue-100/60 text-blue-800 border-blue-200";
       case "Low":
-        return "bg-green-100 text-green-800 border-green-200";
+        return "bg-green-100 hover:bg-green-100/60 text-green-800 border-green-200";
       default:
-        return "bg-gray-100 text-gray-800 border-gray-200";
+        return "bg-gray-100 hover:bg-gray-100/60 text-gray-800 border-gray-200";
     }
   };
 
@@ -359,15 +360,15 @@ const Tasks = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Tasks</h1>
-          <p className="text-slate-600 mt-1">
+          <h1 className="text-3xl font-bold text-black-900">Tasks</h1>
+          <p className="text-black-600 mt-1">
             Manage your tasks across all projects
           </p>
         </div>
 
         <Dialog open={isNewTaskOpen} onOpenChange={setIsNewTaskOpen}>
           <DialogTrigger asChild>
-            <Button className="">
+            <Button className="bg-primary text-black hover:bg-accent">
               <Plus className="h-4 w-4 mr-2" />
               New Task
             </Button>
@@ -693,12 +694,12 @@ const Tasks = () => {
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black-400 h-4 w-4" />
           <Input
             placeholder="Search tasks..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
+            className="pl-10 bg-accent"
           />
         </div>
         <div className="flex gap-2">
@@ -729,7 +730,7 @@ const Tasks = () => {
       </div>
 
       {/* Tasks List */}
-      <Card>
+      <Card className="bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
         <CardHeader>
           <CardTitle>All Tasks</CardTitle>
           <CardDescription>View and manage all your tasks</CardDescription>
@@ -737,11 +738,11 @@ const Tasks = () => {
         <CardContent className="space-y-4">
           {filteredTasks.length === 0 ? (
             <div className="text-center py-8">
-              <CheckSquare className="h-12 w-12 mx-auto text-slate-300 mb-2" />
-              <h3 className="text-lg font-medium text-slate-900">
+              <CheckSquare className="h-12 w-12 mx-auto text-black-300 mb-2" />
+              <h3 className="text-lg font-medium text-black-900">
                 No tasks found
               </h3>
-              <p className="text-slate-500 mt-1">
+              <p className="text-black-500 mt-1">
                 Try adjusting your search or filters
               </p>
             </div>
@@ -767,12 +768,12 @@ const Tasks = () => {
                           className={`text-lg font-medium ${
                             task.completed
                               ? "line-through text-gray-500"
-                              : "text-slate-900"
+                              : "text-black-900"
                           }`}
                         >
                           {task.title}
                         </h3>
-                        <p className="text-sm text-slate-500 mt-1">
+                        <p className="text-sm text-black-500 mt-1">
                           {task.description}
                         </p>
                       </div>
@@ -805,7 +806,7 @@ const Tasks = () => {
                         <Badge
                           key={idx}
                           variant="secondary"
-                          className="bg-slate-100 text-slate-700 text-xs"
+                          className="bg-primary text-black-700 text-xs"
                         >
                           {tag}
                         </Badge>
@@ -819,17 +820,18 @@ const Tasks = () => {
                         {task.priority}
                       </Badge>
 
-                      <div className="flex items-center text-xs text-slate-600">
+                      <div className="flex items-center text-xs text-black-600">
                         <Clock className="h-3.5 w-3.5 mr-1" />
                         {task.dueDate}
                       </div>
 
-                      <div className="flex items-center text-xs text-slate-600">
+                      <div className="flex items-center text-xs text-black-600">
                         <UserIcon className="h-3.5 w-3.5 mr-1" />
                         {task.assignee}
                       </div>
 
-                      <div className="text-xs text-slate-600">
+                      <div className="flex items-center text-xs text-black-600">
+                        <StickyNote className="h-3.5 w-3.5 mr-1" />
                         {task.project}
                       </div>
                     </div>

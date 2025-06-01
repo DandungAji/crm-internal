@@ -143,10 +143,10 @@ const CalendarPage = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">
+          <h1 className="text-3xl font-bold text-black-900 dark:text-black-100">
             Calendar
           </h1>
-          <p className="text-slate-600 dark:text-slate-400 mt-1">
+          <p className="text-black-600 dark:text-black-400 mt-1">
             Manage your schedule and events
           </p>
         </div>
@@ -157,7 +157,7 @@ const CalendarPage = () => {
           </Button>
           <Dialog open={isEventDialogOpen} onOpenChange={setIsEventDialogOpen}>
             <DialogTrigger asChild>
-              <Button>
+              <Button className="bg-primary text-black hover:bg-accent">
                 <Plus className="h-4 w-4 mr-2" />
                 New Event
               </Button>
@@ -231,11 +231,11 @@ const CalendarPage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Calendar */}
         <div className="lg:col-span-1">
-          <Card className="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+          <Card className="bg-white dark:bg-sidebar border-black-200 dark:border-accent-light">
             <CardHeader className="pb-4">
               <div className="flex justify-between items-center">
-                <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
-                  {format(selectedDate, "MMMM yyyy")}
+                <h2 className="text-xl font-semibold text-black-900 dark:text-black-100">
+                  Choose the date
                 </h2>
               </div>
             </CardHeader>
@@ -244,7 +244,7 @@ const CalendarPage = () => {
                 mode="single"
                 selected={selectedDate}
                 onSelect={(date) => date && setSelectedDate(date)}
-                className="rounded-md border w-full"
+                className="rounded-md border dark:border-accent-light dark w-full"
               />
             </CardContent>
           </Card>
@@ -252,9 +252,9 @@ const CalendarPage = () => {
 
         {/* Today's Events */}
         <div className="lg:col-span-1">
-          <Card className="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+          <Card className="bg-white border-black-200">
             <CardHeader className="pb-2">
-              <CardTitle className="text-lg flex items-center text-slate-900 dark:text-slate-100">
+              <CardTitle className="text-lg flex items-center text-black-900 dark:text-black-100">
                 <Clock className="h-5 w-5 mr-2" />
                 Today's Events
               </CardTitle>
@@ -264,13 +264,13 @@ const CalendarPage = () => {
                 {getTodaysEvents().map((event) => (
                   <div
                     key={event.id}
-                    className="p-3 rounded-lg bg-slate-50 dark:bg-slate-700 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors"
+                    className="p-3 rounded-lg bg-black-50 cursor-pointer hover:bg-accent dark:hover:bg-accent-darker transition-colors"
                     onClick={() => handleEventClick(event)}
                   >
-                    <div className="font-medium text-sm text-slate-900 dark:text-slate-100">
+                    <div className="font-medium text-sm text-black-900 dark:text-black-100">
                       {event.title}
                     </div>
-                    <div className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+                    <div className="text-xs text-black-600 dark:text-black-400 mt-1">
                       {event.time}
                     </div>
                     <Badge
@@ -283,7 +283,7 @@ const CalendarPage = () => {
                   </div>
                 ))}
                 {getTodaysEvents().length === 0 && (
-                  <p className="text-sm text-slate-500 dark:text-slate-400">
+                  <p className="text-sm text-black-500 dark:text-black-400">
                     No events today
                   </p>
                 )}
@@ -295,29 +295,29 @@ const CalendarPage = () => {
         {/* Event Details */}
         <div className="lg:col-span-1">
           {selectedEvent && (
-            <Card className="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+            <Card className="bg-white">
               <CardHeader className="pb-2">
-                <CardTitle className="text-lg text-slate-900 dark:text-slate-100">
+                <CardTitle className="text-lg text-black-900 dark:text-black-100">
                   Event Details
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div>
-                  <h3 className="font-semibold text-slate-900 dark:text-slate-100">
+                  <h3 className="font-semibold text-black-900 dark:text-black-100">
                     {selectedEvent.title}
                   </h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                  <p className="text-sm text-black-600 dark:text-black-400 mt-1">
                     {selectedEvent.description}
                   </p>
                 </div>
                 <div className="text-sm">
-                  <p className="text-slate-600 dark:text-slate-400">
+                  <p className="text-black-600 dark:text-black-400">
                     <strong>Date:</strong> {format(selectedEvent.date, "PPP")}
                   </p>
-                  <p className="text-slate-600 dark:text-slate-400">
+                  <p className="text-black-600 dark:text-black-400">
                     <strong>Time:</strong> {selectedEvent.time}
                   </p>
-                  <p className="text-slate-600 dark:text-slate-400">
+                  <p className="text-black-600 dark:text-black-400">
                     <strong>Attendees:</strong>{" "}
                     {selectedEvent.attendees.join(", ") || "None"}
                   </p>

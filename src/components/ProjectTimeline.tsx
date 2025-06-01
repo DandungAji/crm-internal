@@ -1,8 +1,19 @@
-
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, CheckCircle, Circle, AlertCircle } from "lucide-react";
+import {
+  Calendar,
+  Clock,
+  CheckCircle,
+  Circle,
+  AlertCircle,
+} from "lucide-react";
 import { format, addDays, differenceInDays } from "date-fns";
 
 type Task = {
@@ -21,7 +32,11 @@ type ProjectTimelineProps = {
   projectName: string;
 };
 
-const ProjectTimeline = ({ isOpen, onClose, projectName }: ProjectTimelineProps) => {
+const ProjectTimeline = ({
+  isOpen,
+  onClose,
+  projectName,
+}: ProjectTimelineProps) => {
   const tasks: Task[] = [
     {
       id: 1,
@@ -30,7 +45,7 @@ const ProjectTimeline = ({ isOpen, onClose, projectName }: ProjectTimelineProps)
       startDate: new Date(),
       endDate: addDays(new Date(), 7),
       assignee: "Alice Johnson",
-      priority: "high"
+      priority: "high",
     },
     {
       id: 2,
@@ -39,7 +54,7 @@ const ProjectTimeline = ({ isOpen, onClose, projectName }: ProjectTimelineProps)
       startDate: addDays(new Date(), 8),
       endDate: addDays(new Date(), 21),
       assignee: "Charlie Brown",
-      priority: "high"
+      priority: "high",
     },
     {
       id: 3,
@@ -48,7 +63,7 @@ const ProjectTimeline = ({ isOpen, onClose, projectName }: ProjectTimelineProps)
       startDate: addDays(new Date(), 22),
       endDate: addDays(new Date(), 45),
       assignee: "Bob Smith",
-      priority: "medium"
+      priority: "medium",
     },
     {
       id: 4,
@@ -57,7 +72,7 @@ const ProjectTimeline = ({ isOpen, onClose, projectName }: ProjectTimelineProps)
       startDate: addDays(new Date(), 30),
       endDate: addDays(new Date(), 52),
       assignee: "Diana Prince",
-      priority: "medium"
+      priority: "medium",
     },
     {
       id: 5,
@@ -66,7 +81,7 @@ const ProjectTimeline = ({ isOpen, onClose, projectName }: ProjectTimelineProps)
       startDate: addDays(new Date(), 53),
       endDate: addDays(new Date(), 67),
       assignee: "Eva Martinez",
-      priority: "high"
+      priority: "high",
     },
     {
       id: 6,
@@ -75,35 +90,48 @@ const ProjectTimeline = ({ isOpen, onClose, projectName }: ProjectTimelineProps)
       startDate: addDays(new Date(), 68),
       endDate: addDays(new Date(), 75),
       assignee: "Frank Wilson",
-      priority: "critical"
-    }
+      priority: "critical",
+    },
   ];
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case "completed": return <CheckCircle className="h-4 w-4 text-green-600" />;
-      case "in-progress": return <Clock className="h-4 w-4 text-blue-600" />;
-      case "overdue": return <AlertCircle className="h-4 w-4 text-red-600" />;
-      default: return <Circle className="h-4 w-4 text-gray-400" />;
+      case "completed":
+        return <CheckCircle className="h-4 w-4 text-green-600" />;
+      case "in-progress":
+        return <Clock className="h-4 w-4 text-blue-600" />;
+      case "overdue":
+        return <AlertCircle className="h-4 w-4 text-red-600" />;
+      default:
+        return <Circle className="h-4 w-4 text-gray-400" />;
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "completed": return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
-      case "in-progress": return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
-      case "overdue": return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
-      default: return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300";
+      case "completed":
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
+      case "in-progress":
+        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
+      case "overdue":
+        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
+      default:
+        return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300";
     }
   };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case "critical": return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
-      case "high": return "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300";
-      case "medium": return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
-      case "low": return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
-      default: return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300";
+      case "critical":
+        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
+      case "high":
+        return "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300";
+      case "medium":
+        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
+      case "low":
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
+      default:
+        return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300";
     }
   };
 
@@ -121,7 +149,7 @@ const ProjectTimeline = ({ isOpen, onClose, projectName }: ProjectTimelineProps)
             View and track project milestones and task deadlines
           </DialogDescription>
         </DialogHeader>
-        
+
         <div className="space-y-4">
           {/* Timeline Overview */}
           <Card>
@@ -134,23 +162,31 @@ const ProjectTimeline = ({ isOpen, onClose, projectName }: ProjectTimelineProps)
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                 <div>
-                  <span className="text-slate-600 dark:text-slate-400">Total Tasks:</span>
+                  <span className="text-black-600 dark:text-black-400">
+                    Total Tasks:
+                  </span>
                   <div className="font-semibold">{tasks.length}</div>
                 </div>
                 <div>
-                  <span className="text-slate-600 dark:text-slate-400">Completed:</span>
+                  <span className="text-black-600 dark:text-black-400">
+                    Completed:
+                  </span>
                   <div className="font-semibold text-green-600">
-                    {tasks.filter(t => t.status === "completed").length}
+                    {tasks.filter((t) => t.status === "completed").length}
                   </div>
                 </div>
                 <div>
-                  <span className="text-slate-600 dark:text-slate-400">In Progress:</span>
+                  <span className="text-black-600 dark:text-black-400">
+                    In Progress:
+                  </span>
                   <div className="font-semibold text-blue-600">
-                    {tasks.filter(t => t.status === "in-progress").length}
+                    {tasks.filter((t) => t.status === "in-progress").length}
                   </div>
                 </div>
                 <div>
-                  <span className="text-slate-600 dark:text-slate-400">Duration:</span>
+                  <span className="text-black-600 dark:text-black-400">
+                    Duration:
+                  </span>
                   <div className="font-semibold">75 days</div>
                 </div>
               </div>
@@ -167,41 +203,52 @@ const ProjectTimeline = ({ isOpen, onClose, projectName }: ProjectTimelineProps)
                     <div className="flex flex-col items-center">
                       {getStatusIcon(task.status)}
                       {index < tasks.length - 1 && (
-                        <div className="w-px h-16 bg-slate-200 dark:bg-slate-700 mt-2"></div>
+                        <div className="w-px h-16 bg-black-200 dark:bg-black-700 mt-2"></div>
                       )}
                     </div>
-                    
+
                     {/* Task content */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between mb-2">
-                        <h3 className="font-semibold text-slate-900 dark:text-slate-100">
+                        <h3 className="font-semibold text-black-900 dark:text-black-100">
                           {task.title}
                         </h3>
                         <div className="flex space-x-2">
-                          <Badge className={`${getStatusColor(task.status)} text-xs`}>
+                          <Badge
+                            className={`${getStatusColor(task.status)} text-xs`}
+                          >
                             {task.status}
                           </Badge>
-                          <Badge className={`${getPriorityColor(task.priority)} text-xs`}>
+                          <Badge
+                            className={`${getPriorityColor(
+                              task.priority
+                            )} text-xs`}
+                          >
                             {task.priority}
                           </Badge>
                         </div>
                       </div>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-slate-600 dark:text-slate-400">
+
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-black-600 dark:text-black-400">
                         <div>
-                          <span className="font-medium">Start:</span> {format(task.startDate, "MMM dd, yyyy")}
+                          <span className="font-medium">Start:</span>{" "}
+                          {format(task.startDate, "MMM dd, yyyy")}
                         </div>
                         <div>
-                          <span className="font-medium">End:</span> {format(task.endDate, "MMM dd, yyyy")}
+                          <span className="font-medium">End:</span>{" "}
+                          {format(task.endDate, "MMM dd, yyyy")}
                         </div>
                         <div>
-                          <span className="font-medium">Duration:</span> {getDuration(task.startDate, task.endDate)}
+                          <span className="font-medium">Duration:</span>{" "}
+                          {getDuration(task.startDate, task.endDate)}
                         </div>
                       </div>
-                      
+
                       <div className="mt-2 text-sm">
-                        <span className="text-slate-600 dark:text-slate-400">Assigned to:</span>
-                        <span className="ml-1 font-medium text-slate-900 dark:text-slate-100">
+                        <span className="text-black-600 dark:text-black-400">
+                          Assigned to:
+                        </span>
+                        <span className="ml-1 font-medium text-black-900 dark:text-black-100">
                           {task.assignee}
                         </span>
                       </div>

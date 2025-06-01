@@ -214,30 +214,30 @@ const Projects = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "In Progress":
-        return "bg-blue-100 text-blue-800 border-blue-200";
+        return "bg-blue-100 hover:bg-blue-100/80 text-blue-800 border-blue-200";
       case "Planning":
-        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+        return "bg-yellow-100 hover:bg-yellow-100/80 text-yellow-800 border-yellow-200";
       case "Review":
-        return "bg-purple-100 text-purple-800 border-purple-200";
+        return "bg-purple-100 hover:bg-purple-100/80 text-purple-800 border-purple-200";
       case "Completed":
-        return "bg-green-100 text-green-800 border-green-200";
+        return "bg-green-100 hover:bg-green-100/80 text-green-800 border-green-200";
       default:
-        return "bg-gray-100 text-gray-800 border-gray-200";
+        return "bg-gray-100 hover:bg-gray-100/80 text-gray-800 border-gray-200";
     }
   };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case "Critical":
-        return "bg-red-100 text-red-800 border-red-200";
+        return "bg-red-100 hover:bg-red-100/80 text-red-800 border-red-200";
       case "High":
-        return "bg-orange-100 text-orange-800 border-orange-200";
+        return "bg-orange-100 hover:bg-orange-100/80 text-orange-800 border-orange-200";
       case "Medium":
-        return "bg-blue-100 text-blue-800 border-blue-200";
+        return "bg-blue-100 hover:bg-blue-100/80 text-blue-800 border-blue-200";
       case "Low":
-        return "bg-green-100 text-green-800 border-green-200";
+        return "bg-green-100 hover:bg-green-100/80 text-green-800 border-green-200";
       default:
-        return "bg-gray-100 text-gray-800 border-gray-200";
+        return "bg-gray-100 hover:bg-gray-100/80 text-gray-800 border-gray-200";
     }
   };
 
@@ -252,13 +252,13 @@ const Projects = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Projects</h1>
-          <p className="text-slate-600 mt-1">Manage and track your projects</p>
+          <h1 className="text-3xl font-bold text-black-900">Projects</h1>
+          <p className="text-black-600 mt-1">Manage and track your projects</p>
         </div>
 
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="">
+            <Button className="bg-primary text-black hover:bg-accent">
               <Plus className="h-4 w-4 mr-2" />
               New Project
             </Button>
@@ -362,12 +362,12 @@ const Projects = () => {
 
       {/* Search */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black-400 h-4 w-4" />
         <Input
           placeholder="Search projects..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="pl-10"
+          className="pl-10 bg-accent"
         />
       </div>
 
@@ -376,18 +376,18 @@ const Projects = () => {
         {filteredProjects.map((project) => (
           <Card
             key={project.id}
-            className="bg-white dark:bg-slate-800 shadow-sm hover:shadow-md transition-shadow duration-200 border-slate-200 dark:border-slate-700"
+            className="bg-white shadow-sm hover:shadow-md transition-shadow duration-200"
           >
             <CardHeader className="pb-3">
               <div className="flex justify-between items-start">
                 <div className="flex-1">
                   <CardTitle
-                    className="text-lg font-semibold text-slate-900 dark:text-slate-100 cursor-pointer hover:text-blue-600"
+                    className="text-lg font-semibold text-black-900 dark:text-black-100 cursor-pointer hover:text-primary"
                     onClick={() => navigate(`/projects/${project.id}`)}
                   >
                     {project.name}
                   </CardTitle>
-                  <CardDescription className="mt-1 text-slate-600 dark:text-slate-400">
+                  <CardDescription className="mt-1 text-black-600 dark:text-black-400">
                     {project.description}
                   </CardDescription>
                 </div>
@@ -426,7 +426,7 @@ const Projects = () => {
                           Delete Project
                         </DropdownMenuItem>
                       </AlertDialogTrigger>
-                      <AlertDialogContent className="bg-white dark:bg-slate-800">
+                      <AlertDialogContent className="bg-white dark:bg-black-800">
                         <AlertDialogHeader>
                           <AlertDialogTitle>Delete Project</AlertDialogTitle>
                           <AlertDialogDescription>
@@ -463,7 +463,7 @@ const Projects = () => {
 
               <div>
                 <div className="flex justify-between items-center mb-1">
-                  <span className="text-sm text-slate-600">Progress</span>
+                  <span className="text-sm text-black-600">Progress</span>
                   <span className="text-sm font-medium">
                     {project.progress}%
                   </span>
@@ -471,12 +471,12 @@ const Projects = () => {
                 <Progress value={project.progress} className="h-2" />
               </div>
 
-              <div className="flex justify-between text-sm text-slate-600">
+              <div className="flex justify-between text-sm text-black-600">
                 <span>Due: {project.dueDate}</span>
                 <span>{project.teamMembers.length} members</span>
               </div>
 
-              <div className="flex justify-between text-sm text-slate-600">
+              <div className="flex justify-between text-sm text-black-600">
                 <span>
                   Tasks: {project.tasksCompleted}/{project.tasksTotal}
                 </span>
@@ -489,10 +489,10 @@ const Projects = () => {
 
       {filteredProjects.length === 0 && (
         <div className="text-center py-12">
-          <h3 className="text-lg font-medium text-slate-900 mb-2">
+          <h3 className="text-lg font-medium text-black-900 mb-2">
             No projects found
           </h3>
-          <p className="text-slate-600 mb-4">
+          <p className="text-black-600 mb-4">
             Create your first project to get started
           </p>
           <Button onClick={() => setIsCreateDialogOpen(true)}>

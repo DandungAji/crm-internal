@@ -303,10 +303,10 @@ const Masterdata = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">
+        <h1 className="text-3xl font-bold text-black-900 dark:text-black-100">
           Masterdata Management
         </h1>
-        <p className="text-slate-600 dark:text-slate-400 mt-1">
+        <p className="text-black-600 dark:text-black-400 mt-1">
           Manage departments and users
         </p>
       </div>
@@ -332,7 +332,7 @@ const Masterdata = () => {
                   onOpenChange={setIsDeptDialogOpen}
                 >
                   <DialogTrigger asChild>
-                    <Button className="">
+                    <Button className="bg-primary text-black hover:bg-accent">
                       <Plus className="h-4 w-4 mr-2" />
                       Add Department
                     </Button>
@@ -472,7 +472,7 @@ const Masterdata = () => {
                   onOpenChange={setIsUserDialogOpen}
                 >
                   <DialogTrigger asChild>
-                    <Button className="">
+                    <Button className="bg-primary text-black hover:bg-accent">
                       <Plus className="h-4 w-4 mr-2" />
                       Add User
                     </Button>
